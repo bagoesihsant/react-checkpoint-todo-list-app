@@ -1,0 +1,117 @@
+body {
+    background: #dadada;
+}
+
+.container {
+    width: 30%;
+    margin: 2rem auto;
+}
+
+.todo-app {
+    width: 100%;
+    border: 1px solid #dadada;
+    padding: 2rem .5rem;
+    border-radius: 1rem;
+    background-color: #FFFFFF;
+}
+
+/* Todo Header */
+
+.todo-app .todo-header {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Navigator */
+
+.todo-app .todo-header .header-navigator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.todo-app .todo-header .header-navigator button {
+    border: none;
+    border-bottom: .15rem solid #dadada;
+    background: none;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 1rem 2rem;
+    color: #b7b7b7;
+}
+
+.todo-app .todo-header .header-navigator button.active {
+    color: #1c1c1c;
+    border-color: #1c1c1c;
+    font-weight: 500;
+}
+
+/* Header Add Task */
+
+.todo-app .todo-header .add-task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 2rem 1rem;
+    background-color: #f9f9f9;
+}
+
+.todo-app .todo-header .add-task .dates {
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-app .todo-header .add-task .dates h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.todo-app .todo-header .add-task .dates p {
+    color: #979797;
+    font-size: .95rem;
+}
+
+.todo-app .todo-header .add-task .add button {
+    border: none;
+    background-color: #E2EBFA;
+    color: #2968CE;
+    padding: .75rem 2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Header Remaining Task */
+
+.todo-app .todo-header .remaining-tasks {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: #f9f9f9;
+}
+
+.todo-app .todo-header .remaining-tasks p {
+    color: #979797;
+    font-weight: 400;
+}
+
+.todo-app .todo-header .remaining-tasks p span {
+    background-color: #D7D7D7;
+    display: inline-block;
+    height: 1.5rem;
+    width: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.todo-app .todo-header .remaining-tasks p.active {
+    color: #2968CE;
+    font-weight: 500;
+}
+
+.todo-app .todo-header .remaining-tasks p.active span {
+    background-color: #2968CE;
+    color: #FFFFFF;
+    font-weight: 400;
+}
