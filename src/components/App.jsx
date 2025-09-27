@@ -41,7 +41,56 @@ export default function App() {
                         </p>
                     </div>
                 </div>
-                <div className="todo-body"></div>
+                <div className="todo-body">
+                    <div className="task-card">
+                        <div className="card-body">
+                            <div className="task">
+                                <h1>Client Review & Feedback</h1>
+                                <p>Crypto Wallet Redesign</p>
+                            </div>
+                            <div className="round">
+                                <input type="checkbox" name="task-check" id="task-check" />
+                                <label htmlFor="task-check"></label>
+                            </div>
+                        </div>
+                        <div className="card-footer">
+                            <span className="date">Today</span>
+                            <span className="time">10:00 PM - 11:45 PM</span>
+                        </div>
+                    </div>
+                    <div className="task-card">
+                        <div className="card-body">
+                            <div className="task">
+                                <h1>Client Review & Feedback</h1>
+                                <p>Crypto Wallet Redesign</p>
+                            </div>
+                            <div className="round">
+                                <input type="checkbox" name="task-check" id="task-check" />
+                                <label htmlFor="task-check"></label>
+                            </div>
+                        </div>
+                        <div className="card-footer">
+                            <span className="date">Today</span>
+                            <span className="time">10:00 PM - 11:45 PM</span>
+                        </div>
+                    </div>
+                    <div className="task-card">
+                        <div className="card-body">
+                            <div className="task">
+                                <h1>Client Review & Feedback</h1>
+                                <p>Crypto Wallet Redesign</p>
+                            </div>
+                            <div className="round">
+                                <input type="checkbox" name="task-check" id="task-check" />
+                                <label htmlFor="task-check"></label>
+                            </div>
+                        </div>
+                        <div className="card-footer">
+                            <span className="date">Today</span>
+                            <span className="time">10:00 PM - 11:45 PM</span>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
