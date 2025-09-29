@@ -1,3 +1,9 @@
+// Import Components
+import { Form } from './Form'
+import { Input } from './Input'
+import { Button } from './Button'
+import { ListItem } from './ListItem'
+
 
 // Style and Images Import
 import '../styles/App.css'
@@ -7,6 +13,13 @@ import trashIcon from '../assets/trash-icon.svg'
 
 export default function App() {
 
+    const dummyTasks = [
+        {id: 1, task: 'React Learning', finished: false},
+        {id: 2, task: 'HTML CSS Learning', finished: false},
+        {id: 3, task: 'SQL Learning', finished: false},
+        {id: 4, task: 'JavaScript Learning', finished: false},
+    ]
+
     return (
         <div className="center">
             <div className="container">
@@ -14,62 +27,36 @@ export default function App() {
                 <h1 className="app-title">Your Tasks</h1>
 
                 {/* Todo List Task Input Form */}
-                <form action="#" method="post" id="form-todo">
-                    <input type="text" name="todo-task" id="todo-task" autoComplete="off" placeholder="Add new Task" />
-                    <button type="submit">
+                <Form action="#" method="post" formId="form-todo">
+                    <Input inputType="text" inputName="todo-task" inputId="todo-task" placeholder="Add new Task" />
+                    <Button btnType="submit" btnClass="submit-form">
                         <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
-                    </button>
-                </form>
+                    </Button>
+                </Form>
 
                 {/* Todo List Container */}
                 <div className="todo-list-container">
                     <ul className="todo">
-                        <li className="todo-list-item">
-                            <input type="checkbox" name="todo-item-cbox" id="todo-item-cbox-1" />
-                            <span>React Learning</span>
-                            <button type="button" className="edit-item">
-                                <img src={penIcon} className="btn-icon" alt="btn pen icon" />
-                            </button>
-                            <button type="button" className="delete-item">
-                                <img src={trashIcon} alt="btn trash icon" />
-                            </button>
-                        </li>
-                        <li className="todo-list-item">
-                            <input type="checkbox" name="todo-item-cbox" id="todo-item-cbox-1" />
-                            <span>React Learning</span>
-                            <button type="button" className="edit-item">
-                                <img src={penIcon} className="btn-icon" alt="btn pen icon" />
-                            </button>
-                            <button type="button" className="delete-item">
-                                <img src={trashIcon} alt="btn trash icon" />
-                            </button>
-                        </li>
-                        <li className="todo-list-item">
-                            <input type="checkbox" name="todo-item-cbox" id="todo-item-cbox-1" />
-                            <span>React Learning</span>
-                            <button type="button" className="edit-item">
-                                <img src={penIcon} className="btn-icon" alt="btn pen icon" />
-                            </button>
-                            <button type="button" className="delete-item">
-                                <img src={trashIcon} alt="btn trash icon" />
-                            </button>
-                        </li>
-                        <li className="todo-list-item">
-                            <input type="checkbox" name="todo-item-cbox" id="todo-item-cbox-1" />
-                            <span>React Learning</span>
-                            <button type="button" className="edit-item">
-                                <img src={penIcon} className="btn-icon" alt="btn pen icon" />
-                            </button>
-                            <button type="button" className="delete-item">
-                                <img src={trashIcon} alt="btn trash icon" />
-                            </button>
-                        </li>
+                        {
+                            dummyTasks.map(task => (
+                                <ListItem key={task.id} itemClass="todo-list-item">
+                                    <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} />
+                                    <span>{task.task}</span>
+                                    <Button btnType="button" btnClass="edit-item">
+                                        <img src={penIcon} className="btn-icon" alt="btn pen icon" />
+                                    </Button>
+                                    <Button btnType="button" btnClass="delete-item">
+                                        <img src={trashIcon} alt="btn trash icon" />
+                                    </Button>
+                                </ListItem>
+                            ))
+                        }
                     </ul>
                 </div>
 
                 {/* Reminder of remaining task to finish */}
                 <div className="remaining-todo">
-                    <p>Your remaining todos: <span>0</span></p>
+                    <p>Your remaining todos: <span>{dummyTasks.length}</span></p>
                 </div>
             </div>
         </div>
