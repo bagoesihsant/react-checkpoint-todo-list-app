@@ -100,6 +100,7 @@ body {
     display: flex;
     align-items: center;
     gap: .5rem;
+    transition: background-color .75s ease;
 }
 
 .container .todo-list-container .todo .todo-list-item input[type="checkbox"] {
@@ -115,6 +116,7 @@ body {
     color: var(--white-900);
     font-weight: 500;
     user-select: none;
+    position: relative;
 }
 
 .container .todo-list-container .todo .todo-list-item .edit-item {
@@ -138,4 +140,39 @@ body {
     height: 1.5rem;
     width: 1.5rem;
 }
+
+/* CSS Animation Part */
+
+/* Strikethrough Initial State */
+.container .todo-list-container .todo .todo-list-item input[type="checkbox"] + span::after {
+    content: "";
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    left: 0;
+    height: .15rem;
+    width: 0%;
+    background: var(--white-900);
+    transition: width .5s ease;
+}
+
+/* Strikethrough Finished State */
+.container .todo-list-container .todo .todo-list-item input[type="checkbox"]:checked + span::after {
+    content: "";
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    left: 0;
+    height: .15rem;
+    width: 100%;
+    background: var(--white-900);
+    transition: width .75s ease;
+}
+
+.container .todo-list-container .todo .todo-list-item:has(input[type="checkbox"]:checked) {
+    background: var(--white-500);
+    transition: background-color .5s ease;
+}
+
+
 
