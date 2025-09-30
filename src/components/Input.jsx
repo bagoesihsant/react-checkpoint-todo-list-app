@@ -1,4 +1,4 @@
-export function Input({inputType, inputName, inputId, placeholder}) {
+export function Input({inputType, inputName, inputId, placeholder, handleChange, value}) {
     
     if (inputType === "text") {
         return (
@@ -8,6 +8,8 @@ export function Input({inputType, inputName, inputId, placeholder}) {
                 id={inputId}
                 autoComplete='off'
                 placeholder={placeholder}
+                onChange={handleChange}
+                value={value}
             />
         )
     } else {
