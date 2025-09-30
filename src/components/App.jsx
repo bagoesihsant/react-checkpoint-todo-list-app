@@ -20,7 +20,7 @@ const dummyTasks = [
     {id: 4, task: 'JavaScript Learning', finished: false},
 ]
 
-const regex = new RegExp(/^[a-zA-Z0-9 ]+$/g)
+const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
 
 export default function App() {
 
@@ -32,11 +32,16 @@ export default function App() {
     }
 
     function getLatestId(){
-        return tasks.reduce((prev, current) => (prev && prev.id > current.id) ? prev.id : current.id)
+        return (tasks.length < 1) ? 0 : tasks.reduce((prev, current) => (prev && prev.id > current.id) ? prev.id : current.id, {}) 
     }
 
     function handleInputChange(event) {
         setTask(event.target.value)
+    }
+
+    function handleDeleteButton(taskId) {
+        const newTasks = tasks.filter(task => task.id !== taskId)
+        setTasks(newTasks)
     }
 
     function handleFormSubmit(event) {
@@ -50,7 +55,11 @@ export default function App() {
         const userInput = formData.get('todo-task')
 
         // Perform validation
-        if (!validateUserInput(userInput)) return false
+        if (!validateUserInput(userInput)) {
+            alert('Input mengandung karakter yang tidak diijinkan')
+            setTask('')
+            return false
+        }
 
         // Create Task Object
         const newTask = {
@@ -63,7 +72,6 @@ export default function App() {
         const newTasks = [...tasks, newTask]
         setTasks(newTasks)
         setTask('')
-
     }
 
     return (
@@ -88,9 +96,9 @@ export default function App() {
                         handleChange={handleInputChange}
                         value={task}
                     />
-                    <Button btnType="submit" btnClass="submit-form">
+                    <button type="submit" className="submit-form">
                         <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
-                    </Button>
+                    </button>
                 </Form>
 
                 {/* Todo List Container */}
@@ -104,7 +112,7 @@ export default function App() {
                                     <Button btnType="button" btnClass="edit-item">
                                         <img src={penIcon} className="btn-icon" alt="btn pen icon" />
                                     </Button>
-                                    <Button btnType="button" btnClass="delete-item">
+                                    <Button btnType="button" btnClass="delete-item" handleClick={() => handleDeleteButton(task.id)}>
                                         <img src={trashIcon} alt="btn trash icon" />
                                     </Button>
                                 </ListItem>
