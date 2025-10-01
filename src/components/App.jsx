@@ -3,16 +3,17 @@ import { Form } from './Form'
 import { Input } from './Input'
 import { Button } from './Button'
 import { ListItem } from './ListItem'
+import { Modal } from './Modal'
 
 // Import react hooks
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 
 // Style and Images Import
 import '../styles/App.css'
 import plusIcon from '../assets/plus-icon.svg'
 import penIcon from '../assets/pen-icon.svg'
 import trashIcon from '../assets/trash-icon.svg'
-import crossIcon from '../assets/cross-icon.svg'
 
 const dummyTasks = [
     {id: 1, task: 'React Learning', finished: false},
@@ -27,6 +28,10 @@ export default function App() {
 
     const [tasks, setTasks] = useState(dummyTasks)
     const [task, setTask] = useState('')
+    const [modalIsOpen, setModalIsOpen] = useState({
+        show: false,
+        id: null
+    })
 
     function validateUserInput(string) {
         return (string === '' || !regex.test(string)) ? false : true
@@ -40,13 +45,34 @@ export default function App() {
         setTask(event.target.value)
     }
 
-    function handleDeleteButton(taskId) {
-        const newTasks = tasks.filter(task => task.id !== taskId)
-        setTasks(newTasks)
+    function handleOpenModal(taskId) {
+        setModalIsOpen({
+            show: true,
+            id: taskId
+        })
     }
 
-    function handleOpenModal(){
-        alert('This will open a modal in the future')
+    function handleCloseModal() {
+        setModalIsOpen({
+            show: false,
+            id: null
+        })
+    }
+
+    function handleCancelModal() {
+        setModalIsOpen({
+            show: false,
+            id: null
+        })
+    }
+
+    function handleConfirmDeleteModal(){
+        const newTasks = tasks.filter(task => task.id !== modalIsOpen.id)
+        setTasks(newTasks)
+        setModalIsOpen({
+            show: false,
+            id: null
+        })
     }
 
     function handleFormSubmit(event) {
@@ -117,11 +143,14 @@ export default function App() {
                                     <Button btnType="button" btnClass="edit-item">
                                         <img src={penIcon} className="btn-icon" alt="btn pen icon" />
                                     </Button>
-                                    <Button btnType="button" btnClass="delete-item" handleClick={handleOpenModal}>
+                                    <Button btnType="button" btnClass="delete-item" handleClick={() => handleOpenModal(task.id)}>
                                         <img src={trashIcon} alt="btn trash icon" />
                                     </Button>
                                 </ListItem>
                             ))
+                        }
+                        {
+                            modalIsOpen.show && <Modal onClose={handleCloseModal} onCancel={handleCancelModal} onConfirm={handleConfirmDeleteModal}/>
                         }
                     </ul>
                 </div>
@@ -129,32 +158,6 @@ export default function App() {
                 {/* Reminder of remaining task to finish */}
                 <div className="remaining-todo">
                     <p>Your remaining todos: <span>{tasks.length}</span></p>
-                </div>
-            </div>
-
-            {/* Modal Element */}
-            <div className="overlay">
-                <div className="modal-container">
-                    <div className="modal-header">
-                        <button type="button" className="modal-header-close">
-                            <img src={crossIcon} alt='btn modal cross'/>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <h1>Are you sure you want to delete this item?</h1>
-                        <p>
-                            Once deleted the item can't be returned, 
-                            so make sure to check again before deleting.
-                        </p>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="modal-footer-cancel">
-                            Cancel
-                        </button>
-                        <button type="button" className="modal-footer-confirm">
-                            Yes
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

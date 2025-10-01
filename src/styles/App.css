@@ -297,5 +297,22 @@ body {
     transition: background-color .5s ease;
 }
 
+.overlay .modal-container{
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: .25s; /* Animation takes 1 second */
+    animation-timing-function: ease-in; /* Easing function */
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 
 
