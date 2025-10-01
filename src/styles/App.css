@@ -9,6 +9,28 @@
     --white-700: #818181;
     --white-800: #606060;
     --white-900: #3C3C3C;
+
+    --red-50: #f8e4e9;
+    --red-100: #f0bcc9;
+    --red-200: #e693a6;
+    --red-300: #dc6c84;
+    --red-400: #d3546c;
+    --red-500: #cb4458;
+    --red-600: #bb3f54;
+    --red-700: #a63a50; /* Original Start Color */
+    --red-800: #91354b;
+    --red-900: #6b2d41;
+
+    --green-50: #e0f2f2;
+    --green-100: #b3dfde;
+    --green-200: #81ccc8;
+    --green-300: #4eb7b2;
+    --green-400: #27a7a0;
+    --green-500: #04978e;
+    --green-600: #048a81; /* Original Start Color */
+    --green-700: #047a71;
+    --green-800: #056a61;
+    --green-900: #054e44;
 }
 
 body {
@@ -141,6 +163,105 @@ body {
 .container .todo-list-container .todo .todo-list-item button img {
     height: 1.5rem;
     width: 1.5rem;
+}
+
+/* Modal CSS */
+
+.overlay {
+    border: 1px solid black;
+    background: rgb(60 60 60 / .75);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay .modal-container {
+    width: 25%;
+    height: 18rem;
+    background: var(--white-400);
+    border-radius: 1rem;
+    box-shadow: 1px 1px 1px var(--white-700);
+}
+
+.overlay .modal-container .modal-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.overlay .modal-container .modal-header .modal-header-close {
+    border: 1px solid black;
+    margin: .5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-style: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.overlay .modal-container .modal-header .modal-header-close img {
+    height: 2.25rem;
+    width: 2.25rem;
+}
+
+.overlay .modal-container .modal-body {
+    padding: 1rem;
+    max-width: 90%;
+    margin: .5rem auto;
+}
+
+.overlay .modal-container .modal-body h1 {
+    font-size: 1.5rem;
+    margin: 0 0 .5rem;
+}
+
+.overlay .modal-container .modal-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.overlay .modal-container .modal-footer button {
+    background: none;
+    padding: .5rem 0;
+    width: 7rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    border-style: none;
+}
+
+.overlay .modal-container .modal-footer .modal-footer-cancel {
+    background: var(--red-600);
+    color: var(--red-50);
+    font-weight: 600;
+    line-height: 1.5rem;
+    border: 1px solid var(--red-700);
+    transition: background-color .25s ease, color .25s ease;
+}
+
+.overlay .modal-container .modal-footer .modal-footer-cancel:hover {
+    background: var(--red-100);
+    color: var(--red-700);
+}
+
+.overlay .modal-container .modal-footer .modal-footer-confirm {
+    background: var(--green-600);
+    color: var(--green-50);
+    font-weight: 600;
+    line-height: 1.5rem;
+    border: 1px solid var(--green-700);
+    transition: background-color .25s ease, color .25s ease;
+}
+
+.overlay .modal-container .modal-footer .modal-footer-confirm:hover {
+    background: var(--green-100);
+    color: var(--green-700);
 }
 
 /* CSS Animation Part */

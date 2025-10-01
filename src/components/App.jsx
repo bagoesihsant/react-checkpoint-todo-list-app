@@ -12,6 +12,7 @@ import '../styles/App.css'
 import plusIcon from '../assets/plus-icon.svg'
 import penIcon from '../assets/pen-icon.svg'
 import trashIcon from '../assets/trash-icon.svg'
+import crossIcon from '../assets/cross-icon.svg'
 
 const dummyTasks = [
     {id: 1, task: 'React Learning', finished: false},
@@ -42,6 +43,10 @@ export default function App() {
     function handleDeleteButton(taskId) {
         const newTasks = tasks.filter(task => task.id !== taskId)
         setTasks(newTasks)
+    }
+
+    function handleOpenModal(){
+        alert('This will open a modal in the future')
     }
 
     function handleFormSubmit(event) {
@@ -112,7 +117,7 @@ export default function App() {
                                     <Button btnType="button" btnClass="edit-item">
                                         <img src={penIcon} className="btn-icon" alt="btn pen icon" />
                                     </Button>
-                                    <Button btnType="button" btnClass="delete-item" handleClick={() => handleDeleteButton(task.id)}>
+                                    <Button btnType="button" btnClass="delete-item" handleClick={handleOpenModal}>
                                         <img src={trashIcon} alt="btn trash icon" />
                                     </Button>
                                 </ListItem>
@@ -124,6 +129,32 @@ export default function App() {
                 {/* Reminder of remaining task to finish */}
                 <div className="remaining-todo">
                     <p>Your remaining todos: <span>{tasks.length}</span></p>
+                </div>
+            </div>
+
+            {/* Modal Element */}
+            <div className="overlay">
+                <div className="modal-container">
+                    <div className="modal-header">
+                        <button type="button" className="modal-header-close">
+                            <img src={crossIcon} alt='btn modal cross'/>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <h1>Are you sure you want to delete this item?</h1>
+                        <p>
+                            Once deleted the item can't be returned, 
+                            so make sure to check again before deleting.
+                        </p>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="modal-footer-cancel">
+                            Cancel
+                        </button>
+                        <button type="button" className="modal-footer-confirm">
+                            Yes
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
