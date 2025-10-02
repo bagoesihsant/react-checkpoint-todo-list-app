@@ -9,11 +9,9 @@ import { Modal } from './Modal'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 
-// Style and Images Import
+// Import Styles and Images
 import '../styles/App.css'
 import plusIcon from '../assets/plus-icon.svg'
-import penIcon from '../assets/pen-icon.svg'
-import trashIcon from '../assets/trash-icon.svg'
 
 const dummyTasks = [
     {id: 1, task: 'React Learning', finished: false},
@@ -137,20 +135,14 @@ export default function App() {
                     <ul className="todo">
                         {
                             tasks.map(task => (
-                                <ListItem key={task.id} itemClass="todo-list-item">
-                                    <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} />
-                                    <span>{task.task}</span>
-                                    <Button btnType="button" btnClass="edit-item">
-                                        <img src={penIcon} className="btn-icon" alt="btn pen icon" />
-                                    </Button>
-                                    <Button btnType="button" btnClass="delete-item" handleClick={() => handleOpenModal(task.id)}>
-                                        <img src={trashIcon} alt="btn trash icon" />
-                                    </Button>
-                                </ListItem>
+                                <ListItem 
+                                    key={task.id} 
+                                    itemClass="todo-list-item"
+                                    taskId={task.id}
+                                    taskDesc={task.task}
+                                    onDelete={handleOpenModal}
+                                />
                             ))
-                        }
-                        {
-                            modalIsOpen.show && <Modal onClose={handleCloseModal} onCancel={handleCancelModal} onConfirm={handleConfirmDeleteModal}/>
                         }
                     </ul>
                 </div>
@@ -160,6 +152,12 @@ export default function App() {
                     <p>Your remaining todos: <span>{tasks.length}</span></p>
                 </div>
             </div>
+            {
+                modalIsOpen.show && createPortal(
+                    <Modal onClose={handleCloseModal} onCancel={handleCancelModal} onConfirm={handleConfirmDeleteModal}/>,
+                    document.body
+                )
+            }
         </div>
     )
 
