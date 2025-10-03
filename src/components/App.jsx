@@ -73,6 +73,26 @@ export default function App() {
         })
     }
 
+    function handleUpdateData(taskId, taskDesc) {
+        // Ambil data spesifik
+        const selectedData = tasks.filter(task => task.id === taskId)
+
+        // Update data spesifik
+        const updateData = {
+            ...selectedData[0], task: taskDesc
+        }
+
+        // Ambil tasks tanpa data spesifik
+        const filterTasks = tasks.filter(task => task.id !== taskId)
+
+        // Merge tasks dan data baru
+        const updatedTasks = [...filterTasks, updateData].sort((prev, next) => prev.id - next.id)
+
+        // Update state
+        setTasks(updatedTasks)
+
+    }
+
     function handleFormSubmit(event) {
         // Prevent default form behavior from happening
         event.preventDefault()
@@ -141,6 +161,7 @@ export default function App() {
                                     taskId={task.id}
                                     taskDesc={task.task}
                                     onDelete={handleOpenModal}
+                                    updateData={handleUpdateData}
                                 />
                             ))
                         }

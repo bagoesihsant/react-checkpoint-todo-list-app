@@ -8,8 +8,10 @@ export function Input({inputType, inputName, inputId, placeholder, handleChange,
                 id={inputId}
                 autoComplete='off'
                 placeholder={placeholder}
-                onChange={handleChange}
                 value={value}
+                autoCorrect="off"
+                spellCheck='false'
+                onChange={handleChange}
             />
         )
     } else {

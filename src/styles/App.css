@@ -160,6 +160,25 @@ body {
     cursor: pointer;
 }
 
+.container .todo-list-container .todo .todo-list-item .finish-edit-item {
+    margin-left: auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-style: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.container .todo-list-container .todo .todo-list-item .cancel-edit-item {
+    margin-left: auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-style: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+
 .container .todo-list-container .todo .todo-list-item button img {
     height: 1.5rem;
     width: 1.5rem;
@@ -297,6 +316,8 @@ body {
     transition: background-color .5s ease;
 }
 
+/* Modal CSS */
+
 .overlay .modal-container{
     opacity: 0;
     animation-name: fadeIn;
@@ -312,6 +333,22 @@ body {
   to {
     opacity: 1;
   }
+}
+
+/* List Item Alternate Mode CSS */
+.container .todo-list-container .todo .todo-list-item input[type="text"] {
+    padding: 5px 0;
+    width: 80%;
+    font-size: 1.5rem;
+    color: var(--white-900);
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    border-bottom: .15rem solid var(--white-900);
+}
+
+.container .todo-list-container .todo .todo-list-item input[type="text"]:focus {
+    outline: none;
 }
 
 
