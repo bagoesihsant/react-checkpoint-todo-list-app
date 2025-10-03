@@ -1,4 +1,4 @@
-
+import { Button } from './Button'
 
 // Import Assets
 import crossIcon from '../assets/cross-icon.svg'
@@ -21,12 +21,12 @@ export function Modal({onClose, onCancel, onConfirm}){
                     </p>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="modal-footer-cancel" onClick={onCancel}>
+                    <Button btnType="button" btnClass="modal-footer-cancel" handleClick={onCancel}>
                         Cancel
-                    </button>
-                    <button type="button" className="modal-footer-confirm" onClick={onConfirm}>
+                    </Button>
+                    <Button btnType="button" btnClass="modal-footer-confirm" handleClick={onConfirm}>
                         Yes
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

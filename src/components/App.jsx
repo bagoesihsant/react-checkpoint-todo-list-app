@@ -145,9 +145,9 @@ export default function App() {
                         handleChange={handleInputChange}
                         value={task}
                     />
-                    <button type="submit" className="submit-form">
+                    <Button btnType="submit" btnClass="submit-form">
                         <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
-                    </button>
+                    </Button>
                 </Form>
 
                 {/* Todo List Container */}
