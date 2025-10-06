@@ -32,7 +32,7 @@ export default function App() {
     })
 
     function validateUserInput(string) {
-        return (string === '' || !regex.test(string)) ? false : true
+        return (!string.trim() || !regex.test(string)) ? false : true
     }
 
     function getLatestId(){

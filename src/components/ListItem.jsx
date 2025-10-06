@@ -11,6 +11,8 @@ import trashIcon from '../assets/trash-icon.svg'
 import checkIcon from '../assets/check-icon.svg'
 import crossIcon from '../assets/cross-icon.svg'
 
+const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
+
 export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
 
     const [isEdit, setIsEdit] = useState({
@@ -18,6 +20,10 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
         id: null
     })
     const [editTask, setEditTask] = useState(taskDesc)
+
+    function validateUserInput(string) {
+        return (!string.trim() || !regex.test(string)) ? false : true
+    }
 
     function handleToggleEdit(){
         setIsEdit({
@@ -31,6 +37,12 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
     }
 
     function handleToggleFinishEdit(){
+        if (!validateUserInput(editTask)) {
+            alert('Input mengandung karakter yang tidak diijinkan')
+            setEditTask(editTask)
+            return false
+        }
+
         setIsEdit({
             cond: !isEdit.cond,
             id: taskId
@@ -46,6 +58,19 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
         setEditTask(taskDesc)
     }
 
+    function handleKeyFinishEdit(event) {
+
+        if (event.code === 'Enter') {
+            if (!validateUserInput(editTask)) {
+                alert('Input mengandung karakter yang tidak diijinkan')
+                setEditTask(editTask)
+                return false
+            }
+            handleToggleFinishEdit()
+        }
+
+    }
+
     return (
         <li className={itemClass}>
             <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${taskId}`} />
@@ -59,6 +84,7 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
                         inputId={`edit-task-${taskId}`} 
                         value={editTask}
                         handleChange={handleEditChange}
+                        handleKeyDown={handleKeyFinishEdit}
                     />
                 ) 
             }
