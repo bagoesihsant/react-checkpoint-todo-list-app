@@ -30,9 +30,15 @@ export default function App() {
         show: false,
         id: null
     })
+    const [inputError, setInputError] = useState('')
 
     function validateUserInput(string) {
-        return (!string.trim() || !regex.test(string)) ? false : true
+
+        if (!string.trim()) return { cond: false, message: "Input can't be empty." }
+
+        if (!regex.test(string)) return { cond: false, message: "Input contain prohibited character(s)." }
+
+        return { cond: true, message: '' }
     }
 
     function getLatestId(){
@@ -104,9 +110,9 @@ export default function App() {
         const userInput = formData.get('todo-task')
 
         // Perform validation
-        if (!validateUserInput(userInput)) {
-            alert('Input mengandung karakter yang tidak diijinkan')
+        if (!validateUserInput(userInput).cond) {
             setTask('')
+            setInputError(validateUserInput(userInput).message)
             return false
         }
 
@@ -121,6 +127,7 @@ export default function App() {
         const newTasks = [...tasks, newTask]
         setTasks(newTasks)
         setTask('')
+        setInputError('')
     }
 
     return (
@@ -149,6 +156,9 @@ export default function App() {
                         <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
                     </Button>
                 </Form>
+
+                {/* Error Message for wrong user input */}
+                { inputError && (<p id='form-error-msg' className='form-error-msg'>{inputError}</p>) }
 
                 {/* Todo List Container */}
                 <div className="todo-list-container">

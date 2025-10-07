@@ -103,6 +103,14 @@ body {
     width: 2rem;
 }
 
+.container .form-error-msg {
+    font-size: .95rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--red-500);
+    margin-top: -.75rem;
+}
+
 .container .todo-list-container {
     margin: 1rem 0;
 }
