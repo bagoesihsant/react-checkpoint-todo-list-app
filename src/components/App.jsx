@@ -31,6 +31,7 @@ export default function App() {
         id: null
     })
     const [inputError, setInputError] = useState('')
+    const [listItemError, setListItemError] = useState('')
 
     function validateUserInput(string) {
 
@@ -130,6 +131,10 @@ export default function App() {
         setInputError('')
     }
 
+    function handleListItemError(errorMsg){
+        setListItemError(errorMsg)
+    }
+
     return (
         <div className="center">
             <div className="container">
@@ -172,6 +177,7 @@ export default function App() {
                                     taskDesc={task.task}
                                     onDelete={handleOpenModal}
                                     updateData={handleUpdateData}
+                                    handleError={handleListItemError}
                                 />
                             ))
                         }
@@ -186,6 +192,16 @@ export default function App() {
             {
                 modalIsOpen.show && createPortal(
                     <Modal onClose={handleCloseModal} onCancel={handleCancelModal} onConfirm={handleConfirmDeleteModal}/>,
+                    document.body
+                )
+            }
+            
+            {/* Error Message Modal */}
+            {
+                listItemError && createPortal(
+                    <div className="error-modal">
+                        <p>{listItemError}</p>
+                    </div>,
                     document.body
                 )
             }

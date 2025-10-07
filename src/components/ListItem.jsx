@@ -1,5 +1,6 @@
 // Import React Hooks
 import { useState } from "react"
+import { createPortal } from "react-dom"
 
 // Import React Component
 import { Input } from "./Input"
@@ -13,7 +14,7 @@ import crossIcon from '../assets/cross-icon.svg'
 
 const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
 
-export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
+export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, handleError}){
 
     const [isEdit, setIsEdit] = useState({
         cond: false,
@@ -22,8 +23,14 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
     const [editTask, setEditTask] = useState(taskDesc)
 
     function validateUserInput(string) {
-        return (!string.trim() || !regex.test(string)) ? false : true
+
+        if (!string.trim()) return { cond: false, message: "Input can't be empty." }
+
+        if (!regex.test(string)) return { cond: false, message: "Input contain prohibited character(s)." }
+
+        return { cond: true, message: '' }
     }
+
 
     function handleToggleEdit(){
         setIsEdit({
@@ -37,9 +44,9 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
     }
 
     function handleToggleFinishEdit(){
-        if (!validateUserInput(editTask)) {
-            alert('Input mengandung karakter yang tidak diijinkan')
+        if (!validateUserInput(editTask).cond) {
             setEditTask(editTask)
+            handleError(validateUserInput(editTask).message)
             return false
         }
 
@@ -48,6 +55,7 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
             id: taskId
         })
         updateData(taskId, editTask)
+        handleError('')
     }
 
     function handleToggleCancelEdit(){
@@ -56,14 +64,15 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData}){
             id: null
         })
         setEditTask(taskDesc)
+        handleError('')
     }
 
     function handleKeyFinishEdit(event) {
 
         if (event.code === 'Enter') {
-            if (!validateUserInput(editTask)) {
-                alert('Input mengandung karakter yang tidak diijinkan')
+            if (!validateUserInput(editTask).cond) {
                 setEditTask(editTask)
+                handleError(validateUserInput(editTask).message)
                 return false
             }
             handleToggleFinishEdit()
