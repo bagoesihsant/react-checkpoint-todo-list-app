@@ -173,8 +173,7 @@ export default function App() {
                                 <ListItem 
                                     key={task.id} 
                                     itemClass="todo-list-item"
-                                    taskId={task.id}
-                                    taskDesc={task.task}
+                                    task={task}
                                     onDelete={handleOpenModal}
                                     updateData={handleUpdateData}
                                     handleError={handleListItemError}

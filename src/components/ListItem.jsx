@@ -1,6 +1,5 @@
 // Import React Hooks
 import { useState } from "react"
-import { createPortal } from "react-dom"
 
 // Import React Component
 import { Input } from "./Input"
@@ -14,13 +13,13 @@ import crossIcon from '../assets/cross-icon.svg'
 
 const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
 
-export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, handleError}){
+export function ListItem({itemClass, task, onDelete, updateData, handleError}){
 
     const [isEdit, setIsEdit] = useState({
         cond: false,
         id: null
     })
-    const [editTask, setEditTask] = useState(taskDesc)
+    const [editTask, setEditTask] = useState(task.task)
 
     function validateUserInput(string) {
 
@@ -35,7 +34,7 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, han
     function handleToggleEdit(){
         setIsEdit({
             cond: !isEdit.cond,
-            id: taskId
+            id: task.id
         })
     }
 
@@ -52,9 +51,9 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, han
 
         setIsEdit({
             cond: !isEdit.cond,
-            id: taskId
+            id: task.id
         })
-        updateData(taskId, editTask)
+        updateData(task.id, editTask)
         handleError('')
     }
 
@@ -63,7 +62,7 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, han
             cond: false,
             id: null
         })
-        setEditTask(taskDesc)
+        setEditTask(task.task)
         handleError('')
     }
 
@@ -82,15 +81,15 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, han
 
     return (
         <li className={itemClass}>
-            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${taskId}`} />
+            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} />
             { 
                 !isEdit.cond ? 
-                (<span>{taskDesc}</span>) : 
+                (<span>{task.task}</span>) : 
                 (
                     <Input 
                         inputType="text" 
-                        inputName={`edit-task-${taskId}`} 
-                        inputId={`edit-task-${taskId}`} 
+                        inputName={`edit-task-${task.id}`} 
+                        inputId={`edit-task-${task.id}`} 
                         value={editTask}
                         handleChange={handleEditChange}
                         handleKeyDown={handleKeyFinishEdit}
@@ -110,7 +109,7 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, han
             }
             {
                 !isEdit.cond ? (
-                    <Button btnType="button" btnClass="delete-item" handleClick={() => onDelete(taskId)}>
+                    <Button btnType="button" btnClass="delete-item" handleClick={() => onDelete(task.id)}>
                         <img src={trashIcon} alt="btn trash icon" />
                     </Button>
                 ) : (
