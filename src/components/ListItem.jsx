@@ -5,13 +5,14 @@ import { useState } from "react"
 import { Input } from "./Input"
 import { Button } from "./Button"
 
+// Import Utils
+import { validateUserInput } from '../utils/utils'
+
 // Import Styles and Images
 import penIcon from '../assets/pen-icon.svg'
 import trashIcon from '../assets/trash-icon.svg'
 import checkIcon from '../assets/check-icon.svg'
 import crossIcon from '../assets/cross-icon.svg'
-
-const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
 
 export function ListItem({itemClass, task, onDelete, updateData, handleError}){
 
@@ -20,16 +21,6 @@ export function ListItem({itemClass, task, onDelete, updateData, handleError}){
         id: null
     })
     const [editTask, setEditTask] = useState(task.task)
-
-    function validateUserInput(string) {
-
-        if (!string.trim()) return { cond: false, message: "Input can't be empty." }
-
-        if (!regex.test(string)) return { cond: false, message: "Input contain prohibited character(s)." }
-
-        return { cond: true, message: '' }
-    }
-
 
     function handleToggleEdit(){
         setIsEdit({

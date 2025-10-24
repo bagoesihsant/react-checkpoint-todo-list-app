@@ -5,6 +5,9 @@ import { Button } from './Button'
 import { ListItem } from './ListItem'
 import { Modal } from './Modal'
 
+// Import Utils
+import { validateUserInput } from '../utils/utils'
+
 // Import react hooks
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -20,8 +23,6 @@ const dummyTasks = [
     {id: 4, task: 'JavaScript Learning', finished: false},
 ]
 
-const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
-
 export default function App() {
 
     const [tasks, setTasks] = useState(dummyTasks)
@@ -32,15 +33,6 @@ export default function App() {
     })
     const [inputError, setInputError] = useState('')
     const [listItemError, setListItemError] = useState('')
-
-    function validateUserInput(string) {
-
-        if (!string.trim()) return { cond: false, message: "Input can't be empty." }
-
-        if (!regex.test(string)) return { cond: false, message: "Input contain prohibited character(s)." }
-
-        return { cond: true, message: '' }
-    }
 
     function getLatestId(){
         return (tasks.length < 1) ? 0 : tasks.reduce((prev, current) => (prev && prev.id > current.id) ? prev.id : current.id, {}) 
