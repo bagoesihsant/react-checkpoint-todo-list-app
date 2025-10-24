@@ -6,7 +6,10 @@ import { ListItem } from './ListItem'
 import { Modal } from './Modal'
 
 // Import Utils
-import { validateUserInput } from '../utils/utils'
+import { validateUserInput, getLatestId } from '../utils/utils'
+
+// Import Datas
+import { initialTasks } from '../datas/datas'
 
 // Import react hooks
 import { useState } from 'react'
@@ -15,32 +18,26 @@ import { createPortal } from 'react-dom'
 // Import Styles and Images
 import '../styles/App.css'
 import plusIcon from '../assets/plus-icon.svg'
+import { AddTask } from './AddTask'
 
-const dummyTasks = [
-    {id: 1, task: 'React Learning', finished: false},
-    {id: 2, task: 'HTML CSS Learning', finished: false},
-    {id: 3, task: 'SQL Learning', finished: false},
-    {id: 4, task: 'JavaScript Learning', finished: false},
-]
+// TODO
+// 1. Move modal from parent state to each component state (preferable to list item)
+// 2. Considering using reducer and dispatch for tasks state
+// 3. 
 
 export default function App() {
 
-    const [tasks, setTasks] = useState(dummyTasks)
-    const [task, setTask] = useState('')
+    // Main States of Parent Component
+    const [tasks, setTasks] = useState(initialTasks)
+
+    // List Item State
     const [modalIsOpen, setModalIsOpen] = useState({
         show: false,
         id: null
     })
-    const [inputError, setInputError] = useState('')
     const [listItemError, setListItemError] = useState('')
 
-    function getLatestId(){
-        return (tasks.length < 1) ? 0 : tasks.reduce((prev, current) => (prev && prev.id > current.id) ? prev.id : current.id, {}) 
-    }
-
-    function handleInputChange(event) {
-        setTask(event.target.value)
-    }
+    // List Item Function(s) start
 
     function handleOpenModal(taskId) {
         setModalIsOpen({
@@ -92,40 +89,11 @@ export default function App() {
 
     }
 
-    function handleFormSubmit(event) {
-        // Prevent default form behavior from happening
-        event.preventDefault()
-
-        // Get form data
-        const formData = new FormData(event.target)
-
-        // Get user input
-        const userInput = formData.get('todo-task')
-
-        // Perform validation
-        if (!validateUserInput(userInput).cond) {
-            setTask('')
-            setInputError(validateUserInput(userInput).message)
-            return false
-        }
-
-        // Create Task Object
-        const newTask = {
-            id: getLatestId()+1,
-            task: userInput,
-            finished: false
-        }
-
-        // Add new Task Object to State
-        const newTasks = [...tasks, newTask]
-        setTasks(newTasks)
-        setTask('')
-        setInputError('')
-    }
-
     function handleListItemError(errorMsg){
         setListItemError(errorMsg)
     }
+
+    // List Item Function(s) end
 
     return (
         <div className="center">
@@ -133,29 +101,7 @@ export default function App() {
                 {/* Your App Title */}
                 <h1 className="app-title">Your Tasks</h1>
 
-                {/* Todo List Task Input Form */}
-                <Form 
-                    action="#"
-                    method="post" 
-                    formId="form-todo"
-                    handleSubmit={handleFormSubmit}
-                    encType="multipart/form-data"
-                >
-                    <Input 
-                        inputType="text" 
-                        inputName="todo-task" 
-                        inputId="todo-task" 
-                        placeholder="Add new Task" 
-                        handleChange={handleInputChange}
-                        value={task}
-                    />
-                    <Button btnType="submit" btnClass="submit-form">
-                        <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
-                    </Button>
-                </Form>
-
-                {/* Error Message for wrong user input */}
-                { inputError && (<p id='form-error-msg' className='form-error-msg'>{inputError}</p>) }
+               <AddTask tasks={tasks} handleTasks={setTasks} />
 
                 {/* Todo List Container */}
                 <div className="todo-list-container">

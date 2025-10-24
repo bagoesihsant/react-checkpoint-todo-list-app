@@ -7,3 +7,7 @@ export function validateUserInput(string) {
 
     return { cond: true, message: '' }
 }
+
+export function getLatestId(tasks){
+    return (tasks.length < 1) ? 0 : tasks.reduce((prev, current) => (prev && prev.id > current.id) ? prev.id : current.id, {}) 
+}
