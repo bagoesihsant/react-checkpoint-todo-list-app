@@ -1,15 +1,18 @@
 // Import Components
-import { AddTask } from './AddTask'
-import { TasksList } from './TasksList'
+import { AddTask } from './AddTask';
+import { TasksList } from './TasksList';
+
+// Import Context Provider
+import { TasksProvider } from '../contexts/TasksProvider';
 
 // Import Datas
-import { initialTasks } from '../datas/datas'
+import { initialTasks } from '../datas/datas';
 
 // Import react hooks
-import { useState } from 'react'
+import { useState } from 'react';
 
 // Import Styles and Images
-import '../styles/App.css'
+import '../styles/App.css';
 
 // TODO
 // 1. Move modal from parent state to each component state (preferable to list item)
@@ -35,8 +38,10 @@ export default function App() {
                 {/* Your App Title */}
                 <h1 className="app-title">Your Tasks</h1>
 
-                <AddTask tasks={tasks} handleTasks={setTasks} />
-                <TasksList tasks={tasks} handleTasks={setTasks}/>
+                <TasksProvider>
+                    <AddTask />
+                    <TasksList />
+                </TasksProvider>
 
                 {/* Reminder of remaining task to finish */}
                 <div className="remaining-todo">

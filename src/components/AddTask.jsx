@@ -6,16 +6,22 @@ import { Button } from './Button'
 // Import Utils
 import { validateUserInput, getLatestId } from '../utils/utils'
 
+// Import Context
+import { useTasks, useTasksDispatch } from '../contexts/TasksProvider'
+
 // Import React hooks
 import { useState } from 'react'
 
 // Import styling and images
 import plusIcon from '../assets/plus-icon.svg'
 
-export function AddTask({tasks, handleTasks}){
+export function AddTask(){
+
+    const tasks = useTasks();
+    const dispatch = useTasksDispatch();
 
     const [task, setTask] = useState('');
-    const [taskInputError, setTaskInputError] = useState('')
+    const [taskInputError, setTaskInputError] = useState('');
 
     function handleInputChange(event){
         setTask(event.target.value);
@@ -23,33 +29,29 @@ export function AddTask({tasks, handleTasks}){
 
     function handleFormSubmit(event) {
         // Prevent default form behavior from happening
-        event.preventDefault()
+        event.preventDefault();
 
         // Get form data
-        const formData = new FormData(event.target)
+        const formData = new FormData(event.target);
 
         // Get user input
         const userInput = formData.get('todo-task')
 
         // Perform validation
         if (!validateUserInput(userInput).cond) {
-            setTask('')
-            setTaskInputError(validateUserInput(userInput).message)
+            setTask('');
+            setTaskInputError(validateUserInput(userInput).message);
             return false
         }
 
-        // Create Task Object
-        const newTask = {
+        // Add new Task Object to State
+        dispatch({
+            type: 'add',
             id: getLatestId(tasks)+1,
             task: userInput,
-            finished: false
-        }
-
-        // Add new Task Object to State
-        const newTasks = [...tasks, newTask]
-        handleTasks(newTasks)
-        setTask('')
-        setTaskInputError('')
+        });
+        setTask('');
+        setTaskInputError('');
     }
 
     return(

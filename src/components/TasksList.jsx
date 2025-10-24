@@ -1,12 +1,18 @@
 // Import Components
-import { ListItem } from './ListItem'
-import { Modal } from './Modal'
+import { ListItem } from './ListItem';
+import { Modal } from './Modal';
+
+// Import Context
+import { useTasks, useTasksDispatch } from '../contexts/TasksProvider';
 
 // Import react hooks
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
-export function TasksList({tasks, handleTasks}){
+export function TasksList(){
+
+    const tasks = useTasks();
+    const dispatch = useTasks();
 
     // List Item State
     const [modalIsOpen, setModalIsOpen] = useState({
