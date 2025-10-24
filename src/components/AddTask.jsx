@@ -77,7 +77,7 @@ export function AddTask({tasks, handleTasks}){
 
             {/* Error Message for wrong user input */}
             { taskInputError && (<p id='form-error-msg' className='form-error-msg'>{taskInputError}</p>) }
-            </>
+        </>
     )
 
 }
