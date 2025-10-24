@@ -1,78 +1,99 @@
 // Import React Hooks
-import { useState } from "react"
+import { useState } from "react";
 
 // Import React Component
-import { Input } from "./Input"
-import { Button } from "./Button"
+import { Input } from "./Input";
+import { Button } from "./Button";
 
 // Import Utils
-import { validateUserInput } from '../utils/utils'
+import { validateUserInput } from '../utils/utils';
+
+// Import Context
+import { useTasksDispatch } from "../contexts/TasksProvider";
 
 // Import Styles and Images
-import penIcon from '../assets/pen-icon.svg'
-import trashIcon from '../assets/trash-icon.svg'
-import checkIcon from '../assets/check-icon.svg'
-import crossIcon from '../assets/cross-icon.svg'
+import penIcon from '../assets/pen-icon.svg';
+import trashIcon from '../assets/trash-icon.svg';
+import checkIcon from '../assets/check-icon.svg';
+import crossIcon from '../assets/cross-icon.svg';
 
-export function ListItem({itemClass, task, onDelete, updateData, handleError}){
+export function ListItem({task, handleDelete, handleError}){
+
+    const dispatch = useTasksDispatch();
 
     const [isEdit, setIsEdit] = useState({
         cond: false,
         id: null
     })
-    const [editTask, setEditTask] = useState(task.task)
+    const [editTask, setEditTask] = useState(task.task);
+
+    function resetEditInput(){
+        setIsEdit({
+            cond: false,
+            id: null
+        });
+    }
 
     function handleToggleEdit(){
         setIsEdit({
             cond: !isEdit.cond,
             id: task.id
-        })
+        });
     }
 
     function handleEditChange(event){
-        setEditTask(event.target.value)
+        setEditTask(event.target.value);
     }
 
     function handleToggleFinishEdit(){
         if (!validateUserInput(editTask).cond) {
-            setEditTask(editTask)
-            handleError(validateUserInput(editTask).message)
-            return false
+            setEditTask(editTask);
+            handleError(validateUserInput(editTask).message);
+            return false;
         }
-
-        setIsEdit({
-            cond: !isEdit.cond,
-            id: task.id
-        })
-        updateData(task.id, editTask)
-        handleError('')
+        resetEditInput();
+        dispatch({
+            type: 'update',
+            task: {
+                ...task,
+                task: editTask,
+            }
+        });
+        handleError('');
     }
 
     function handleToggleCancelEdit(){
-        setIsEdit({
-            cond: false,
-            id: null
-        })
-        setEditTask(task.task)
-        handleError('')
+        
+        setEditTask(task.task);
+        handleError('');
     }
 
     function handleKeyFinishEdit(event) {
 
         if (event.code === 'Enter') {
             if (!validateUserInput(editTask).cond) {
-                setEditTask(editTask)
-                handleError(validateUserInput(editTask).message)
-                return false
+                setEditTask(editTask);
+                handleError(validateUserInput(editTask).message);
+                return false;
             }
-            handleToggleFinishEdit()
+            handleToggleFinishEdit();
         }
 
     }
 
+    function handleFinishTask(){
+        dispatch({
+            type: 'update',
+            task: {
+                ...task,
+                finished: !task.finished,
+            }
+        });
+    }
+
     return (
-        <li className={itemClass}>
-            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} />
+        <li className="todo-list-item">
+            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} handleChange={handleFinishTask} />
             { 
                 !isEdit.cond ? 
                 (<span>{task.task}</span>) : 
@@ -100,7 +121,7 @@ export function ListItem({itemClass, task, onDelete, updateData, handleError}){
             }
             {
                 !isEdit.cond ? (
-                    <Button btnType="button" btnClass="delete-item" handleClick={() => onDelete(task.id)}>
+                    <Button btnType="button" btnClass="delete-item" handleClick={() => handleDelete(task.id)}>
                         <img src={trashIcon} alt="btn trash icon" />
                     </Button>
                 ) : (

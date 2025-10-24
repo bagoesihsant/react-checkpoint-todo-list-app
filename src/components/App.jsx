@@ -5,14 +5,9 @@ import { TasksList } from './TasksList';
 // Import Context Provider
 import { TasksProvider } from '../contexts/TasksProvider';
 
-// Import Datas
-import { initialTasks } from '../datas/datas';
-
-// Import react hooks
-import { useState } from 'react';
-
 // Import Styles and Images
 import '../styles/App.css';
+import { TasksCount } from './TasksCount';
 
 // TODO
 // 1. Move modal from parent state to each component state (preferable to list item)
@@ -29,9 +24,6 @@ import '../styles/App.css';
 
 export default function App() {
 
-    // Main States of Parent Component
-    const [tasks, setTasks] = useState(initialTasks)
-
     return (
         <div className="center">
             <div className="container">
@@ -41,12 +33,9 @@ export default function App() {
                 <TasksProvider>
                     <AddTask />
                     <TasksList />
+                    <TasksCount />
                 </TasksProvider>
 
-                {/* Reminder of remaining task to finish */}
-                <div className="remaining-todo">
-                    <p>Your remaining todos: <span>{tasks.length}</span></p>
-                </div>
             </div>
         </div>
     )

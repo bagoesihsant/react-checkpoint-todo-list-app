@@ -1,4 +1,4 @@
-export function Input({inputType, inputName, inputId, placeholder, handleChange, value, handleKeyDown}) {
+export function Input({inputType, inputName, inputId, placeholder, value, handleChange, handleKeyDown}) {
     
     if (inputType === "text") {
         return (
@@ -21,6 +21,7 @@ export function Input({inputType, inputName, inputId, placeholder, handleChange,
                 type={inputType} 
                 name={inputName} 
                 id={inputId}
+                onChange={handleChange}
             />
         )
     }

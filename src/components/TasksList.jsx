@@ -12,7 +12,7 @@ import { createPortal } from 'react-dom';
 export function TasksList(){
 
     const tasks = useTasks();
-    const dispatch = useTasks();
+    const dispatch = useTasksDispatch();
 
     // List Item State
     const [modalIsOpen, setModalIsOpen] = useState({
@@ -35,36 +35,12 @@ export function TasksList(){
         });
     }
 
-    function handleCancelModal() {
-        setModalIsOpen({
-            show: false,
-            id: null
-        });
-    }
-
     function handleConfirmDeleteModal(){
-        const newTasks = tasks.filter(task => task.id !== modalIsOpen.id);
-        handleTasks(newTasks);
+        dispatch({
+            type: 'delete',
+            id: modalIsOpen.id,
+        });
         handleCloseModal();
-    }
-
-    function handleUpdateData(taskId, taskDesc) {
-        // Ambil data spesifik
-        const selectedData = tasks.filter(task => task.id === taskId);
-
-        // Update data spesifik
-        const updateData = {
-            ...selectedData[0], task: taskDesc
-        }
-
-        // Ambil tasks tanpa data spesifik
-        const filterTasks = tasks.filter(task => task.id !== taskId);
-
-        // Merge tasks dan data baru
-        const updatedTasks = [...filterTasks, updateData].sort((prev, next) => prev.id - next.id);
-
-        // Update state
-        handleTasks(updatedTasks);
     }
 
     function handleListItemError(errorMsg){
@@ -81,10 +57,8 @@ export function TasksList(){
                         tasks.map(task => (
                             <ListItem 
                                 key={task.id} 
-                                itemClass="todo-list-item"
                                 task={task}
-                                onDelete={handleOpenModal}
-                                updateData={handleUpdateData}
+                                handleDelete={handleOpenModal}
                                 handleError={handleListItemError}
                             />
                         ))
@@ -95,7 +69,7 @@ export function TasksList(){
             {/* List Item Components */}
             {
                 modalIsOpen.show && createPortal(
-                    <Modal onClose={handleCloseModal} onCancel={handleCancelModal} onConfirm={handleConfirmDeleteModal}/>,
+                    <Modal onClose={handleCloseModal} onCancel={handleCloseModal} onConfirm={handleConfirmDeleteModal}/>,
                     document.body
                 )
             }
