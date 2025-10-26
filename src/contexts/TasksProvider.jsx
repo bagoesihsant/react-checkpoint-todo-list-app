@@ -2,7 +2,12 @@
 import { useReducer, useContext } from "react";
 
 // Import Context
-import { TasksContext, TasksDispatchContext } from "./TasksContext";
+import { 
+    TasksContext, 
+    TasksDispatchContext, 
+    FilterTasksContext,
+    FilterTasksDispatchContext,
+} from "./TasksContext";
 
 // Import Reducer Function(s) Neccesities
 // Import Datas
@@ -10,13 +15,18 @@ import { initialTasks } from '../datas/datas'
 
 export function TasksProvider({children}){
 
-    const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+    const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
+    const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, "all");
 
     return (
         <>
             <TasksContext value={tasks}>
-                <TasksDispatchContext value={dispatch}>
-                    {children}
+                <TasksDispatchContext value={tasksDispatch}>
+                    <FilterTasksContext value={filterTasks}>
+                        <FilterTasksDispatchContext value={filterTasksDispatch}>
+                            {children}
+                        </FilterTasksDispatchContext>
+                    </FilterTasksContext>
                 </TasksDispatchContext>
             </TasksContext>
         </>
@@ -33,7 +43,15 @@ export function useTasksDispatch(){
     return useContext(TasksDispatchContext);
 }
 
-// Reducer Function
+export function useFilterTasks(){
+    return useContext(FilterTasksContext);
+}
+
+export function useFilterTasksDispatch(){
+    return useContext(FilterTasksDispatchContext);
+}
+
+// Tasks Reducer Function
 function tasksReducer(tasks, action) {
 
     switch(action.type) {
@@ -65,6 +83,27 @@ function tasksReducer(tasks, action) {
 
         default: {
             throw Error(`Unknown Action: ${action.type}`);
+        }
+
+    }
+
+}
+
+// Filter Tasks Reducer
+function filterTasksReducer(tasks, action){
+
+    switch(action.type) {
+
+        case 'finished' : {
+
+        }
+
+        case 'unfinished' : {
+
+        }
+
+        default: {
+
         }
 
     }

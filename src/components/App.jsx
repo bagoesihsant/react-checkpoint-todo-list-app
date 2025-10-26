@@ -9,19 +9,6 @@ import { TasksProvider } from '../contexts/TasksProvider';
 import '../styles/App.css';
 import { TasksCount } from './TasksCount';
 
-// TODO
-// 1. Move modal from parent state to each component state (preferable to list item)
-// 2. Considering using reducer and dispatch for tasks state
-// 3. 
-
-// Mental Note
-// 1. The Reason as to why extracting add task form into its own component is as is:
-// 1.1. After consideration, that component require its own state, and tasks state
-// 1.2. That component need to be extracted to allow usage of reducer in this application
-// 2. The reason we using reducer and context is as is
-// 2.1. To reduce props usage in List Item Component
-// 2.2. To group up the tasks state methods into one
-
 export default function App() {
 
     return (

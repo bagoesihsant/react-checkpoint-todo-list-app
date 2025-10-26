@@ -93,7 +93,7 @@ export function ListItem({task, handleDelete, handleError}){
 
     return (
         <li className="todo-list-item">
-            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} handleChange={handleFinishTask} />
+            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} handleChange={handleFinishTask} checked={task.finished} />
             { 
                 !isEdit.cond ? 
                 (<span>{task.task}</span>) : 

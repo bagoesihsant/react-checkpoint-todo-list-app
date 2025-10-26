@@ -1,4 +1,13 @@
-export function Input({inputType, inputName, inputId, placeholder, value, handleChange, handleKeyDown}) {
+export function Input({
+    inputType, 
+    inputName, 
+    inputId, 
+    placeholder, 
+    value, 
+    handleChange, 
+    handleKeyDown,
+    checked,
+}) {
     
     if (inputType === "text") {
         return (
@@ -22,6 +31,7 @@ export function Input({inputType, inputName, inputId, placeholder, value, handle
                 name={inputName} 
                 id={inputId}
                 onChange={handleChange}
+                checked={checked}
             />
         )
     }
