@@ -111,6 +111,34 @@ body {
     margin-top: -.75rem;
 }
 
+.container .filter-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.container .filter-container button {
+    border-style: none;
+    border-radius: .25rem;
+    background: var(--white-400);
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+}
+
+.container .filter-container button.active {
+    background-color: var(--white-900);
+    color: var(--white-100);
+}
+
+.container .filter-container button:hover {
+    background-color: var(--white-900);
+    color: var(--white-100);
+}
+
+
+
 .container .todo-list-container {
     margin: 1rem 0;
 }

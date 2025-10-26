@@ -1,35 +1,54 @@
-import { 
-    useFilterTasksDispatch 
+import {
+    useFilterTasks, 
+    useFilterTasksDispatch,
 } from '../contexts/TasksProvider';
 
 export function FilterTasks(){
 
+    const filterTasksStatus = useFilterTasks();
     const filterTasksDispatch = useFilterTasksDispatch();
 
     return (
         <>
-            <button onClick={() => {
-                filterTasksDispatch({
-                    type: 'all',
+            <div className="filter-container">
+                <button 
+                    onClick={() => {
+                        filterTasksDispatch({
+                            type: 'all',
 
-                })
-            }}>
-                All
-            </button>
-            <button onClick={() => {
-                filterTasksDispatch({
-                    type: 'finished',
-                })
-            }}>
-                Finished
-            </button>
-            <button onClick={() => {
-                filterTasksDispatch({
-                    type: 'unfinished',
-                })
-            }}>
-                Unfinished
-            </button>
+                        });
+                    }}
+                    className={
+                        filterTasksStatus === 'all' ? 'active' : null
+                    }
+                >
+                    All
+                </button>
+                <button 
+                    onClick={() => {
+                        filterTasksDispatch({
+                            type: 'finished',
+                        });
+                    }}
+                    className={
+                        filterTasksStatus === 'finished' ? 'active' : null
+                    }
+                >
+                    Finished
+                </button>
+                <button 
+                    onClick={() => {
+                        filterTasksDispatch({
+                            type: 'unfinished',
+                        });
+                    }}
+                    className={
+                        filterTasksStatus === 'unfinished' ? 'active' : null
+                    }
+                >
+                    Unfinished
+                </button>
+            </div>
         </>
     )
 
