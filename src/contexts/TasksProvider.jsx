@@ -95,15 +95,15 @@ function filterTasksReducer(tasks, action){
     switch(action.type) {
 
         case 'finished' : {
-
+            return "finished";
         }
 
         case 'unfinished' : {
-
+            return "unfinished";
         }
 
         default: {
-
+            return "all";
         }
 
     }

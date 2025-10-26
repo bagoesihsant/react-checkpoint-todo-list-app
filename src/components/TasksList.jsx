@@ -3,7 +3,11 @@ import { ListItem } from './ListItem';
 import { Modal } from './Modal';
 
 // Import Context
-import { useTasks, useTasksDispatch } from '../contexts/TasksProvider';
+import { 
+    useTasks, 
+    useTasksDispatch,
+    useFilterTasks,
+} from '../contexts/TasksProvider';
 
 // Import react hooks
 import { useState } from 'react';
@@ -13,6 +17,27 @@ export function TasksList(){
 
     const tasks = useTasks();
     const dispatch = useTasksDispatch();
+    const filterTasksStatus = useFilterTasks();
+
+    const filterTasks = () => {
+        switch(filterTasksStatus) {
+
+            case 'finished' : {
+                return tasks.filter(task => task.finished === true);
+            }
+
+            case 'unfinished' : {
+                return tasks.filter(task => task.finished === false);
+            }
+
+            default: {
+                return tasks;
+            }
+
+        }
+    }
+
+    const filteredTasks = filterTasks();
 
     // List Item State
     const [modalIsOpen, setModalIsOpen] = useState({
@@ -47,14 +72,13 @@ export function TasksList(){
         setListItemError(errorMsg);
     }
 
-
     return (
         <>
             {/* Todo List Container */}
             <div className="todo-list-container">
                 <ul className="todo">
                     {
-                        tasks.map(task => (
+                        filteredTasks.map(task => (
                             <ListItem 
                                 key={task.id} 
                                 task={task}
