@@ -118,6 +118,7 @@ body {
 }
 
 .container .filter-container button {
+    padding-block: .25rem;
     border-style: none;
     border-radius: .25rem;
     background: var(--white-400);
