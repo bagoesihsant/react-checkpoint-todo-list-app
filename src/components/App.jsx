@@ -5,6 +5,7 @@ import { FilterTasks } from './FilterTasks';
 
 // Import Context Provider
 import { TasksProvider } from '../contexts/TasksProvider';
+import { ToastContainer } from 'react-toastify';
 
 // Import Styles and Images
 import '../styles/App.css';
@@ -23,6 +24,7 @@ export default function App() {
                     <FilterTasks />
                     <TasksList />
                     <TasksCount />
+                    <ToastContainer />
                 </TasksProvider>
 
             </div>

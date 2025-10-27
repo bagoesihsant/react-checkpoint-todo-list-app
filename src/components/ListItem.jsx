@@ -1,6 +1,9 @@
 // Import React Hooks
 import { useState } from "react";
 
+// Import React Libraries
+import { toast } from "react-toastify";
+
 // Import React Component
 import { Input } from "./Input";
 import { Button } from "./Button";
@@ -51,20 +54,45 @@ export function ListItem({task, handleDelete, handleError}){
             handleError(validateUserInput(editTask).message);
             return false;
         }
-        resetEditInput();
-        dispatch({
-            type: 'update',
-            task: {
-                ...task,
-                task: editTask,
-            }
-        });
-        handleError('');
+        
+        // Save Data Logic
+        try {
+            dispatch({
+                type: 'update',
+                task: {
+                    ...task,
+                    task: editTask,
+                }
+            });
+            resetEditInput();
+            handleError('');
+            toast.success('Data updated', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        } catch (error) {
+            toast.error('Failed to Update Data', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
 
     function handleToggleCancelEdit(){
-        
         setEditTask(task.task);
+        resetEditInput();
         handleError('');
     }
 

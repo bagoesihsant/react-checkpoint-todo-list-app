@@ -13,6 +13,9 @@ import {
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
+// Import React Libraries
+import { toast } from 'react-toastify';
+
 export function TasksList(){
 
     const tasks = useTasks();
@@ -61,11 +64,34 @@ export function TasksList(){
     }
 
     function handleConfirmDeleteModal(){
-        dispatch({
-            type: 'delete',
-            id: modalIsOpen.id,
-        });
-        handleCloseModal();
+        try {
+            dispatch({
+                type: 'delete',
+                id: modalIsOpen.id,
+            });
+            handleCloseModal();
+            toast.success('Data deleted', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        } catch(error) {
+            toast.error('Failed to Delete Data', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
 
     function handleListItemError(errorMsg){

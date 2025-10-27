@@ -12,6 +12,9 @@ import { useTasks, useTasksDispatch } from '../contexts/TasksProvider'
 // Import React hooks
 import { useState } from 'react'
 
+// Import React Libraries
+import { toast } from 'react-toastify';
+
 // Import styling and images
 import plusIcon from '../assets/plus-icon.svg'
 
@@ -45,13 +48,36 @@ export function AddTask(){
         }
 
         // Add new Task Object to State
-        dispatch({
-            type: 'add',
-            id: getLatestId(tasks)+1,
-            task: userInput,
-        });
-        setTask('');
-        setTaskInputError('');
+        try {
+            dispatch({
+                type: 'add',
+                id: getLatestId(tasks)+1,
+                task: userInput,
+            });
+            setTask('');
+            setTaskInputError('');
+            toast.success('Data added', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        } catch (error) {
+            toast.error('Failed to Add Data', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
 
     return(
