@@ -70,7 +70,7 @@ export function TasksList(){
                 id: modalIsOpen.id,
             });
             handleCloseModal();
-            toast.success('Data deleted', {
+            toast.success('Task deleted', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -81,7 +81,7 @@ export function TasksList(){
                 theme: "colored",
             });
         } catch(error) {
-            toast.error('Failed to Delete Data', {
+            toast.error('Failed to Delete Task', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,

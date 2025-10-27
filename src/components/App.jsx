@@ -2,6 +2,7 @@
 import { AddTask } from './AddTask';
 import { TasksList } from './TasksList';
 import { FilterTasks } from './FilterTasks';
+import { ClearTasks } from './ClearTasks';
 
 // Import Context Provider
 import { TasksProvider } from '../contexts/TasksProvider';
@@ -23,6 +24,7 @@ export default function App() {
                     <AddTask />
                     <FilterTasks />
                     <TasksList />
+                    <ClearTasks />
                     <TasksCount />
                     <ToastContainer />
                 </TasksProvider>

@@ -86,6 +86,14 @@ function tasksReducer(tasks, action) {
             return tasks.filter(task => task.id !== action.id);
         }
 
+        case 'clear-all' : {
+            return [];
+        }
+
+        case 'clear-finished' : {
+            return tasks.filter(task => task.finished !== true);
+        }
+
         default: {
             throw Error(`Unknown Action: ${action.type}`);
         }

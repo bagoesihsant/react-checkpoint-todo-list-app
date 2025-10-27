@@ -66,7 +66,7 @@ export function ListItem({task, handleDelete, handleError}){
             });
             resetEditInput();
             handleError('');
-            toast.success('Data updated', {
+            toast.success('Task updated', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -77,7 +77,7 @@ export function ListItem({task, handleDelete, handleError}){
                 theme: "colored",
             });
         } catch (error) {
-            toast.error('Failed to Update Data', {
+            toast.error('Failed to Update Task', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,

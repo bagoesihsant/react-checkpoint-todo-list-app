@@ -138,6 +138,26 @@ body {
     color: var(--white-100);
 }
 
+.container .clear-button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.container .clear-button-container button {
+    padding-block: .25rem;
+    border-style: none;
+    border-radius: .25rem;
+    background: var(--white-400);
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+}
+.container .clear-button-container button:hover {
+    background-color: var(--white-900);
+    color: var(--white-100);
+}
 
 
 .container .todo-list-container {
@@ -219,6 +239,10 @@ body {
 .container .todo-list-container .todo .todo-list-item button img {
     height: 1.5rem;
     width: 1.5rem;
+}
+
+.container .remaining-todo {
+    margin-block: 1rem;
 }
 
 /* Modal CSS */

@@ -56,7 +56,7 @@ export function AddTask(){
             });
             setTask('');
             setTaskInputError('');
-            toast.success('Data added', {
+            toast.success('Task added', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -67,7 +67,7 @@ export function AddTask(){
                 theme: "colored",
             });
         } catch (error) {
-            toast.error('Failed to Add Data', {
+            toast.error('Failed to Add Task', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
