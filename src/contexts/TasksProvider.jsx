@@ -1,5 +1,5 @@
 // Import React Hooks
-import { useReducer, useContext } from "react";
+import { useReducer, useContext, useEffect } from "react";
 
 // Import Context
 import { 
@@ -9,14 +9,19 @@ import {
     FilterTasksDispatchContext,
 } from "./TasksContext";
 
-// Import Reducer Function(s) Neccesities
-// Import Datas
-import { initialTasks } from '../datas/datas'
+// Import Utils
+import { setLocalItems, getLocalItems } from "../utils/utils";
 
 export function TasksProvider({children}){
 
+    const initialTasks = getLocalItems('userTasks') || [];
+
     const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
     const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, "all");
+
+    useEffect(() => {
+        setLocalItems('userTasks', tasks);
+    }, [tasks]);
 
     return (
         <>
