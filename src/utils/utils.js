@@ -11,3 +11,20 @@ export function validateUserInput(string) {
 export function getLatestId(tasks){
     return (tasks.length < 1) ? 0 : tasks.reduce((prev, current) => (prev && prev.id > current.id) ? prev.id : current.id, {}) 
 }
+
+export function setLocalItems(key, value){
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.log(`Error serving to localStorage: ${error}`);
+    }
+}
+
+export function getLocalItems(key) {
+    try {
+        const items = localStorage.getItem(key);
+        return items ? JSON.parse(items) : undefined;
+    } catch (error) {
+        console.log(`Error serving to localStorage: ${error}`);
+    }
+}
