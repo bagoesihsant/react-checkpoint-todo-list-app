@@ -1,96 +1,135 @@
 // Import React Hooks
-import { useState } from "react"
-import { createPortal } from "react-dom"
+import { useState } from "react";
+
+// Import React Libraries
+import { toast } from "react-toastify";
 
 // Import React Component
-import { Input } from "./Input"
-import { Button } from "./Button"
+import { Input } from "./Input";
+import { Button } from "./Button";
+
+// Import Utils
+import { validateUserInput } from '../utils/utils';
+
+// Import Context
+import { useTasksDispatch } from "../contexts/TasksProvider";
 
 // Import Styles and Images
-import penIcon from '../assets/pen-icon.svg'
-import trashIcon from '../assets/trash-icon.svg'
-import checkIcon from '../assets/check-icon.svg'
-import crossIcon from '../assets/cross-icon.svg'
+import penIcon from '../assets/pen-icon.svg';
+import trashIcon from '../assets/trash-icon.svg';
+import checkIcon from '../assets/check-icon.svg';
+import crossIcon from '../assets/cross-icon.svg';
 
-const regex = new RegExp(/^[a-zA-Z0-9 ]+$/)
+export function ListItem({task, handleDelete, handleError}){
 
-export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, handleError}){
+    const dispatch = useTasksDispatch();
 
     const [isEdit, setIsEdit] = useState({
         cond: false,
         id: null
     })
-    const [editTask, setEditTask] = useState(taskDesc)
+    const [editTask, setEditTask] = useState(task.task);
 
-    function validateUserInput(string) {
-
-        if (!string.trim()) return { cond: false, message: "Input can't be empty." }
-
-        if (!regex.test(string)) return { cond: false, message: "Input contain prohibited character(s)." }
-
-        return { cond: true, message: '' }
+    function resetEditInput(){
+        setIsEdit({
+            cond: false,
+            id: null
+        });
     }
-
 
     function handleToggleEdit(){
         setIsEdit({
             cond: !isEdit.cond,
-            id: taskId
-        })
+            id: task.id
+        });
     }
 
     function handleEditChange(event){
-        setEditTask(event.target.value)
+        setEditTask(event.target.value);
     }
 
     function handleToggleFinishEdit(){
         if (!validateUserInput(editTask).cond) {
-            setEditTask(editTask)
-            handleError(validateUserInput(editTask).message)
-            return false
+            setEditTask(editTask);
+            handleError(validateUserInput(editTask).message);
+            return false;
         }
-
-        setIsEdit({
-            cond: !isEdit.cond,
-            id: taskId
-        })
-        updateData(taskId, editTask)
-        handleError('')
+        
+        // Save Data Logic
+        try {
+            dispatch({
+                type: 'update',
+                task: {
+                    ...task,
+                    task: editTask,
+                }
+            });
+            resetEditInput();
+            handleError('');
+            toast.success('Task updated', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        } catch (error) {
+            toast.error('Failed to Update Task', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
 
     function handleToggleCancelEdit(){
-        setIsEdit({
-            cond: false,
-            id: null
-        })
-        setEditTask(taskDesc)
-        handleError('')
+        setEditTask(task.task);
+        resetEditInput();
+        handleError('');
     }
 
     function handleKeyFinishEdit(event) {
 
         if (event.code === 'Enter') {
             if (!validateUserInput(editTask).cond) {
-                setEditTask(editTask)
-                handleError(validateUserInput(editTask).message)
-                return false
+                setEditTask(editTask);
+                handleError(validateUserInput(editTask).message);
+                return false;
             }
-            handleToggleFinishEdit()
+            handleToggleFinishEdit();
         }
 
     }
 
+    function handleFinishTask(){
+        dispatch({
+            type: 'update',
+            task: {
+                ...task,
+                finished: !task.finished,
+            }
+        });
+    }
+
     return (
-        <li className={itemClass}>
-            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${taskId}`} />
+        <li className="todo-list-item">
+            <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} handleChange={handleFinishTask} checked={task.finished} />
             { 
                 !isEdit.cond ? 
-                (<span>{taskDesc}</span>) : 
+                (<span>{task.task}</span>) : 
                 (
                     <Input 
                         inputType="text" 
-                        inputName={`edit-task-${taskId}`} 
-                        inputId={`edit-task-${taskId}`} 
+                        inputName={`edit-task-${task.id}`} 
+                        inputId={`edit-task-${task.id}`} 
                         value={editTask}
                         handleChange={handleEditChange}
                         handleKeyDown={handleKeyFinishEdit}
@@ -110,7 +149,7 @@ export function ListItem({itemClass, taskId, taskDesc, onDelete, updateData, han
             }
             {
                 !isEdit.cond ? (
-                    <Button btnType="button" btnClass="delete-item" handleClick={() => onDelete(taskId)}>
+                    <Button btnType="button" btnClass="delete-item" handleClick={() => handleDelete(task.id)}>
                         <img src={trashIcon} alt="btn trash icon" />
                     </Button>
                 ) : (
