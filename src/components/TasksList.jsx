@@ -7,6 +7,7 @@ import {
     useTasks, 
     useTasksDispatch,
     useFilterTasks,
+    useCategoryTasks,
 } from '../contexts/TasksProvider';
 
 // Import react hooks
@@ -20,9 +21,11 @@ export function TasksList(){
 
     const tasks = useTasks();
     const dispatch = useTasksDispatch();
-    const filterTasksStatus = useFilterTasks();
 
-    const filterTasks = () => {
+    const filterTasksStatus = useFilterTasks();
+    const categoryTasksStatus = useCategoryTasks();
+
+    const filterTasks = (tasks) => {
         switch(filterTasksStatus) {
 
             case 'finished' : {
@@ -40,7 +43,26 @@ export function TasksList(){
         }
     }
 
-    const filteredTasks = filterTasks();
+    const categorizeTasks = (tasks) => {
+        switch(categoryTasksStatus) {
+
+            case 'personal' : {
+                return tasks.filter(task => task.category === 'personal');
+            }
+
+            case 'work' : {
+                return tasks.filter(task => task.category === 'work');
+            }
+
+            default: {
+                return tasks;
+            }
+
+        }
+    }
+
+    const filteredTasks = filterTasks(tasks);
+    const categorizedTasks = categorizeTasks(filteredTasks);
 
     const [modalIsOpen, setModalIsOpen] = useState({
         show: false,
@@ -98,7 +120,7 @@ export function TasksList(){
             <div className="todo-list-container">
                 <ul className="todo">
                     {
-                        filteredTasks.map(task => (
+                        categorizedTasks.map(task => (
                             <ListItem 
                                 key={task.id} 
                                 task={task}

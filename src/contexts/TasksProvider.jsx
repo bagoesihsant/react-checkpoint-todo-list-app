@@ -7,6 +7,8 @@ import {
     TasksDispatchContext, 
     FilterTasksContext,
     FilterTasksDispatchContext,
+    CategoryTasksContext,
+    CategoryTasksDispatchContext,
 } from "./TasksContext";
 
 // Import Utils
@@ -18,6 +20,7 @@ export function TasksProvider({children}){
 
     const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
     const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, "all");
+    const [categoryTasks, categoryTasksDispatch] = useReducer(categoryTasksReducer, "all");
 
     useEffect(() => {
         setLocalItems('userTasks', tasks);
@@ -29,7 +32,11 @@ export function TasksProvider({children}){
                 <TasksDispatchContext value={tasksDispatch}>
                     <FilterTasksContext value={filterTasks}>
                         <FilterTasksDispatchContext value={filterTasksDispatch}>
-                            {children}
+                            <CategoryTasksContext value={categoryTasks}>
+                                <CategoryTasksDispatchContext value={categoryTasksDispatch}>
+                                    {children}
+                                </CategoryTasksDispatchContext>
+                            </CategoryTasksContext>
                         </FilterTasksDispatchContext>
                     </FilterTasksContext>
                 </TasksDispatchContext>
@@ -54,6 +61,14 @@ export function useFilterTasks(){
 
 export function useFilterTasksDispatch(){
     return useContext(FilterTasksDispatchContext);
+}
+
+export function useCategoryTasks(){
+    return useContext(CategoryTasksContext);
+}
+
+export function useCategoryTasksDispatch(){
+    return useContext(CategoryTasksDispatchContext);
 }
 
 // Tasks Reducer Function
@@ -114,6 +129,27 @@ function filterTasksReducer(tasks, action){
 
         case 'unfinished' : {
             return "unfinished";
+        }
+
+        default: {
+            return "all";
+        }
+
+    }
+
+}
+
+// Sort Tasks Reducer
+function categoryTasksReducer(tasks, action) {
+
+    switch(action.type) {
+
+        case 'personal': {
+            return 'personal';
+        }
+
+        case 'work' : {
+            return 'work';
         }
 
         default: {
