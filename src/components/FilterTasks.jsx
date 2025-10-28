@@ -9,8 +9,9 @@ export function FilterTasks(){
     const filterTasksDispatch = useFilterTasksDispatch();
 
     return (
-        <>
-            <div className="filter-container">
+        <div className="filter-container">
+            <h2>Filter by Completion Status</h2>
+            <div className="button-container">
                 <button 
                     onClick={() => {
                         filterTasksDispatch({
@@ -49,7 +50,7 @@ export function FilterTasks(){
                     Unfinished
                 </button>
             </div>
-        </>
+        </div>
     )
 
 }

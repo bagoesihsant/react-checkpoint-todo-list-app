@@ -136,12 +136,21 @@ body {
 
 .container .filter-container {
     display: flex;
+    flex-direction: column;
+}
+
+.container .filter-container h2 {
+    font-size: 1.5rem;
+}
+
+.container .filter-container .button-container {
+    display: flex;
     justify-content: space-between;
     gap: 1rem;
     margin-block: 1rem;
 }
 
-.container .filter-container button {
+.container .filter-container .button-container button {
     padding-block: .25rem;
     border-style: none;
     border-radius: .25rem;
@@ -154,12 +163,21 @@ body {
 
 .container .sort-button-container {
     display: flex;
+    flex-direction: column;
+}
+
+.container .sort-button-container h2 {
+    font-size: 1.5rem;
+}
+
+.container .sort-button-container .button-container {
+    display: flex;
     justify-content: space-between;
     gap: 1rem;
     margin-block: 1rem;
 }
 
-.container .sort-button-container button {
+.container .sort-button-container .button-container button {
     padding-block: .25rem;
     border-style: none;
     border-radius: .25rem;
@@ -171,22 +189,22 @@ body {
 }
 
 
-.container .filter-container button.active {
+.container .filter-container .button-container button.active {
     background-color: var(--white-900);
     color: var(--white-100);
 }
 
-.container .filter-container button:hover {
+.container .filter-container .button-container button:hover {
     background-color: var(--white-900);
     color: var(--white-100);
 }
 
-.container .sort-button-container button.active {
+.container .sort-button-container .button-container button.active {
     background-color: var(--white-900);
     color: var(--white-100);
 }
 
-.container .sort-button-container button:hover {
+.container .sort-button-container .button-container button:hover {
     background-color: var(--white-900);
     color: var(--white-100);
 }

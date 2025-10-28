@@ -11,36 +11,39 @@ export function SortTasks(){
 
     return(
         <div className="sort-button-container">
-            <button
-                onClick={() => {
-                    dispatch({type: 'all',});
-                }}
-                className={
-                    tasks === 'all' ? 'active' : null
-                }
-            >
-                All
-            </button>
-            <button
-                onClick={() => {
-                    dispatch({type: 'personal'});
-                }}
-                className={
-                    tasks === 'personal' ? 'active' : null
-                }
-            >
-                Personal
-            </button>
-            <button
-                onClick={() => {
-                    dispatch({type: 'work'});
-                }}
-                className={
-                    tasks === 'work' ? 'active' : null
-                }
-            >
-                Work
-            </button>
+            <h2>Filter by Category</h2>
+            <div className="button-container">
+                <button
+                    onClick={() => {
+                        dispatch({type: 'all',});
+                    }}
+                    className={
+                        tasks === 'all' ? 'active' : null
+                    }
+                >
+                    All
+                </button>
+                <button
+                    onClick={() => {
+                        dispatch({type: 'personal'});
+                    }}
+                    className={
+                        tasks === 'personal' ? 'active' : null
+                    }
+                >
+                    Personal
+                </button>
+                <button
+                    onClick={() => {
+                        dispatch({type: 'work'});
+                    }}
+                    className={
+                        tasks === 'work' ? 'active' : null
+                    }
+                >
+                    Work
+                </button>
+            </div>
         </div>
     )
 
