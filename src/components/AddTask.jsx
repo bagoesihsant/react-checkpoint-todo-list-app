@@ -24,7 +24,6 @@ export function AddTask(){
     const dispatch = useTasksDispatch();
 
     const [task, setTask] = useState('');
-    const [taskInputError, setTaskInputError] = useState('');
 
     function handleInputChange(event){
         setTask(event.target.value);
@@ -43,8 +42,17 @@ export function AddTask(){
         // Perform validation
         if (!validateUserInput(userInput).cond) {
             setTask('');
-            setTaskInputError(validateUserInput(userInput).message);
-            return false
+            toast.error(`Failed to Add Task: ${validateUserInput(userInput).message}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            return false;
         }
 
         // Add new Task Object to State
@@ -67,7 +75,7 @@ export function AddTask(){
                 theme: "colored",
             });
         } catch (error) {
-            toast.error('Failed to Add Task', {
+            toast.error(`Failed to Add Task: ${error}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -102,9 +110,6 @@ export function AddTask(){
                     <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
                 </Button>
             </Form>
-
-            {/* Error Message for wrong user input */}
-            { taskInputError && (<p id='form-error-msg' className='form-error-msg'>{taskInputError}</p>) }
         </>
     )
 

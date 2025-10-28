@@ -42,12 +42,10 @@ export function TasksList(){
 
     const filteredTasks = filterTasks();
 
-    // List Item State
     const [modalIsOpen, setModalIsOpen] = useState({
         show: false,
         id: null
     });
-    const [listItemError, setListItemError] = useState('');
 
     function handleOpenModal(taskId) {
         setModalIsOpen({
@@ -81,7 +79,7 @@ export function TasksList(){
                 theme: "colored",
             });
         } catch(error) {
-            toast.error('Failed to Delete Task', {
+            toast.error(`Failed to Delete Task: ${error}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -92,10 +90,6 @@ export function TasksList(){
                 theme: "colored",
             });
         }
-    }
-
-    function handleListItemError(errorMsg){
-        setListItemError(errorMsg);
     }
 
     return (
@@ -109,7 +103,6 @@ export function TasksList(){
                                 key={task.id} 
                                 task={task}
                                 handleDelete={handleOpenModal}
-                                handleError={handleListItemError}
                             />
                         ))
                     }
@@ -120,16 +113,6 @@ export function TasksList(){
             {
                 modalIsOpen.show && createPortal(
                     <Modal onClose={handleCloseModal} onCancel={handleCloseModal} onConfirm={handleConfirmDeleteModal}/>,
-                    document.body
-                )
-            }
-            
-            {/* Error Message Modal */}
-            {
-                listItemError && createPortal(
-                    <div className="error-modal">
-                        <p>{listItemError}</p>
-                    </div>,
                     document.body
                 )
             }

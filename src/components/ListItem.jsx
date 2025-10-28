@@ -20,7 +20,7 @@ import trashIcon from '../assets/trash-icon.svg';
 import checkIcon from '../assets/check-icon.svg';
 import crossIcon from '../assets/cross-icon.svg';
 
-export function ListItem({task, handleDelete, handleError}){
+export function ListItem({task, handleDelete}){
 
     const dispatch = useTasksDispatch();
 
@@ -51,7 +51,16 @@ export function ListItem({task, handleDelete, handleError}){
     function handleToggleFinishEdit(){
         if (!validateUserInput(editTask).cond) {
             setEditTask(editTask);
-            handleError(validateUserInput(editTask).message);
+            toast.error(`Failed to Update Task: ${validateUserInput(editTask).message}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
             return false;
         }
         
@@ -65,7 +74,6 @@ export function ListItem({task, handleDelete, handleError}){
                 }
             });
             resetEditInput();
-            handleError('');
             toast.success('Task updated', {
                 position: "top-right",
                 autoClose: 5000,
@@ -77,7 +85,7 @@ export function ListItem({task, handleDelete, handleError}){
                 theme: "colored",
             });
         } catch (error) {
-            toast.error('Failed to Update Task', {
+            toast.error(`Failed to Update Task : ${error}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -97,16 +105,9 @@ export function ListItem({task, handleDelete, handleError}){
     }
 
     function handleKeyFinishEdit(event) {
-
         if (event.code === 'Enter') {
-            if (!validateUserInput(editTask).cond) {
-                setEditTask(editTask);
-                handleError(validateUserInput(editTask).message);
-                return false;
-            }
             handleToggleFinishEdit();
         }
-
     }
 
     function handleFinishTask(){
