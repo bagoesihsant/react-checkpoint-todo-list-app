@@ -17,14 +17,24 @@ import { setLocalItems, getLocalItems } from "../utils/utils";
 export function TasksProvider({children}){
 
     const initialTasks = getLocalItems('userTasks') || [];
+    const initialFilter = getLocalItems('userFilterCompletion') || "all";
+    const initialCategory = getLocalItems('userFilterCategory') || "all";
 
     const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
-    const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, "all");
-    const [categoryTasks, categoryTasksDispatch] = useReducer(categoryTasksReducer, "all");
+    const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, initialFilter);
+    const [categoryTasks, categoryTasksDispatch] = useReducer(categoryTasksReducer, initialCategory);
 
     useEffect(() => {
         setLocalItems('userTasks', tasks);
     }, [tasks]);
+
+    useEffect(() => {
+        setLocalItems('userFilterCompletion', filterTasks);
+    }, [filterTasks]);
+
+    useEffect(() => {
+        setLocalItems('userFilterCategory', categoryTasks);
+    }, [categoryTasks]);
 
     return (
         <>
