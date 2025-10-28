@@ -37,7 +37,8 @@ export function AddTask(){
         const formData = new FormData(event.target);
 
         // Get user input
-        const userInput = formData.get('todo-task')
+        const userInput = formData.get('todo-task');
+        const taskCategory = formData.get('todo-task-categories');
 
         // Perform validation
         if (!validateUserInput(userInput).cond) {
@@ -61,6 +62,7 @@ export function AddTask(){
                 type: 'add',
                 id: getLatestId(tasks)+1,
                 task: userInput,
+                category: taskCategory,
             });
             setTask('');
             toast.success('Task added', {
@@ -105,6 +107,10 @@ export function AddTask(){
                     handleChange={handleInputChange}
                     value={task}
                 />
+                <select id='todo-task-categories' name='todo-task-categories'>
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                </select>
                 <Button btnType="submit" btnClass="submit-form">
                     <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
                 </Button>

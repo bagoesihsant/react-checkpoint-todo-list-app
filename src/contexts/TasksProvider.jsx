@@ -67,6 +67,7 @@ function tasksReducer(tasks, action) {
                 {
                     id: action.id,
                     task: action.task,
+                    category: action.category,
                     finished: false,
                 }
             ];

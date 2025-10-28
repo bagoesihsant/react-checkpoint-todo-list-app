@@ -57,6 +57,7 @@ body {
 .container #form-todo {
     margin: 1rem 0;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
 }
@@ -79,6 +80,36 @@ body {
 .container #form-todo input[type=text]:hover {
     border-color: var(--white-900);
     text-indent: .5rem;
+}
+
+.container #form-todo #todo-task-categories {
+    border-style: none;
+    border-radius: 1rem;
+    height: 3rem;
+    padding-inline: 1rem 3rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    background: var(--white-900);
+    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" color="%23FAFAFA" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    color: var(--white-100);
+}
+
+.container #form-todo #todo-task-categories:hover {
+    background: var(--white-800);
+    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" color="%23FAFAFA" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+}
+
+.container #form-todo #todo-task-categories option {
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .container #form-todo button[type="submit"] {
@@ -190,6 +221,11 @@ body {
     font-weight: 500;
     user-select: none;
     position: relative;
+}
+
+.container .todo-list-container .todo .todo-list-item .category {
+    text-transform: capitalize;
+    font-weight: 600;
 }
 
 .container .todo-list-container .todo .todo-list-item .edit-item {
