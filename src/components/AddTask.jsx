@@ -63,7 +63,6 @@ export function AddTask(){
                 task: userInput,
             });
             setTask('');
-            setTaskInputError('');
             toast.success('Task added', {
                 position: "top-right",
                 autoClose: 5000,
