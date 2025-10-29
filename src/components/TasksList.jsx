@@ -8,6 +8,7 @@ import {
     useTasksDispatch,
     useFilterTasks,
     useCategoryTasks,
+    useUndoTasksDispatcher,
 } from '../contexts/TasksProvider';
 
 // Import react hooks
@@ -24,6 +25,8 @@ export function TasksList(){
 
     const filterTasksStatus = useFilterTasks();
     const categoryTasksStatus = useCategoryTasks();
+
+    const undoTaskDispatch = useUndoTasksDispatcher();
 
     const filterTasks = (tasks) => {
         switch(filterTasksStatus) {
@@ -96,9 +99,14 @@ export function TasksList(){
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
+            });
+            undoTaskDispatch({
+                type: 'add',
+                task: categorizedTasks.find(task => task.id === modalIsOpen.id),
             });
         } catch(error) {
             toast.error(`Failed to Delete Task: ${error}`, {
@@ -107,6 +115,7 @@ export function TasksList(){
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",

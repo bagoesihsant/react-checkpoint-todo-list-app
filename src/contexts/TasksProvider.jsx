@@ -1,5 +1,5 @@
 // Import React Hooks
-import { useReducer, useContext, useEffect } from "react";
+import { useReducer, useContext, useEffect, useRef } from "react";
 
 // Import Context
 import { 
@@ -15,6 +15,7 @@ import {
 
 // Import Utils
 import { setLocalItems, getLocalItems } from "../utils/utils";
+import { toast } from "react-toastify";
 
 export function TasksProvider({children}){
 
@@ -40,8 +41,21 @@ export function TasksProvider({children}){
     }, [categoryTasks]);
 
     useEffect(() => {
-        console.log("Undo Task is added");
-        console.log(undoTask);
+
+        if (undoTask.task) {
+            toast.info(`Do you want to undo the deletion of ${undoTask.task}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                pauseOnFocusLoss: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
+
     }, [undoTask]);
 
     return (
@@ -52,7 +66,11 @@ export function TasksProvider({children}){
                         <FilterTasksDispatchContext value={filterTasksDispatch}>
                             <CategoryTasksContext value={categoryTasks}>
                                 <CategoryTasksDispatchContext value={categoryTasksDispatch}>
-                                    {children}
+                                    <UndoTasksContext value={undoTask}>
+                                        <UndoTasksDispatchContext value={undoTaskDispatch}>
+                                            {children}
+                                        </UndoTasksDispatchContext>
+                                    </UndoTasksContext>
                                 </CategoryTasksDispatchContext>
                             </CategoryTasksContext>
                         </FilterTasksDispatchContext>
@@ -192,10 +210,7 @@ function undoTaskReducer(task, action) {
     switch(action.type) {
 
         case 'add' : {
-            return {
-                ...task,
-                task: action.task
-            }
+            return action.task;
         }
 
         case 'delete' : {
