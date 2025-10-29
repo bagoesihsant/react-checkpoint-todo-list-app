@@ -9,6 +9,8 @@ import {
     FilterTasksDispatchContext,
     CategoryTasksContext,
     CategoryTasksDispatchContext,
+    UndoTasksContext,
+    UndoTasksDispatchContext,
 } from "./TasksContext";
 
 // Import Utils
@@ -23,6 +25,7 @@ export function TasksProvider({children}){
     const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
     const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, initialFilter);
     const [categoryTasks, categoryTasksDispatch] = useReducer(categoryTasksReducer, initialCategory);
+    const [undoTask, undoTaskDispatch] = useReducer(undoTaskReducer, {});
 
     useEffect(() => {
         setLocalItems('userTasks', tasks);
@@ -35,6 +38,11 @@ export function TasksProvider({children}){
     useEffect(() => {
         setLocalItems('userFilterCategory', categoryTasks);
     }, [categoryTasks]);
+
+    useEffect(() => {
+        console.log("Undo Task is added");
+        console.log(undoTask);
+    }, [undoTask]);
 
     return (
         <>
@@ -79,6 +87,14 @@ export function useCategoryTasks(){
 
 export function useCategoryTasksDispatch(){
     return useContext(CategoryTasksDispatchContext);
+}
+
+export function useUndoTasks(){
+    return useContext(UndoTasksContext);
+}
+
+export function useUndoTasksDispatcher() {
+    return useContext(UndoTasksDispatchContext);
 }
 
 // Tasks Reducer Function
@@ -164,6 +180,26 @@ function categoryTasksReducer(tasks, action) {
 
         default: {
             return "all";
+        }
+
+    }
+
+}
+
+// Undo Task Reducer
+function undoTaskReducer(task, action) {
+
+    switch(action.type) {
+
+        case 'add' : {
+            return {
+                ...task,
+                task: action.task
+            }
+        }
+
+        case 'delete' : {
+            return {}
         }
 
     }

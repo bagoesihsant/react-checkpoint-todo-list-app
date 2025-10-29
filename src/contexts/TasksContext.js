@@ -8,3 +8,6 @@ export const FilterTasksDispatchContext = createContext(null);
 
 export const CategoryTasksContext = createContext(null);
 export const CategoryTasksDispatchContext = createContext(null);
+
+export const UndoTasksContext = createContext(null);
+export const UndoTasksDispatchContext = createContext(null);
