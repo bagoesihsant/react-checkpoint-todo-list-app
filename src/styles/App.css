@@ -516,5 +516,25 @@ body {
     outline: none;
 }
 
+/* CSS For Toast */
+.msg-container {
+    padding-inline-start: 1rem;
+}
+
+.msg-container .msg-confirm-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-block: .25rem;
+}
+
+.msg-container .msg-confirm-container button {
+    border-style: none;
+    background: transparent;
+    color: var(--white-50);
+    font-weight: 600;
+    cursor: pointer;
+}
+
 
 

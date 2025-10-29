@@ -1,5 +1,5 @@
 // Import React Hooks
-import { useReducer, useContext, useEffect, useRef } from "react";
+import { useReducer, useContext, useEffect, } from "react";
 
 // Import Context
 import { 
@@ -16,6 +16,9 @@ import {
 // Import Utils
 import { setLocalItems, getLocalItems } from "../utils/utils";
 import { toast } from "react-toastify";
+
+// Import Component
+import { UndoTask } from "../components/UndoTask";
 
 export function TasksProvider({children}){
 
@@ -43,12 +46,24 @@ export function TasksProvider({children}){
     useEffect(() => {
 
         if (undoTask.task) {
-            toast.info(`Do you want to undo the deletion of ${undoTask.task}`, {
+
+            let timeoutId = setTimeout(() => {undoTaskDispatch({type: 'delete'});}, 5000);
+            
+            toast.info(UndoTask, {
+                data: {
+                    id: undoTask.id,
+                    task: undoTask.task,
+                    category: undoTask.category,
+                    finished: undoTask.finished,
+                    timeoutId: timeoutId,
+                    taskDispatcher: tasksDispatch,
+                    undoTaskDispatcher: undoTaskDispatch
+                },
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: false,
-                pauseOnHover: true,
+                pauseOnHover: false,
                 pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
@@ -127,7 +142,7 @@ function tasksReducer(tasks, action) {
                     id: action.id,
                     task: action.task,
                     category: action.category,
-                    finished: false,
+                    finished: action.finished ? action.finished : false,
                 }
             ];
         }
