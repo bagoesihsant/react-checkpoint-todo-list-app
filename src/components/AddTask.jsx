@@ -24,7 +24,6 @@ export function AddTask(){
     const dispatch = useTasksDispatch();
 
     const [task, setTask] = useState('');
-    const [taskInputError, setTaskInputError] = useState('');
 
     function handleInputChange(event){
         setTask(event.target.value);
@@ -38,13 +37,24 @@ export function AddTask(){
         const formData = new FormData(event.target);
 
         // Get user input
-        const userInput = formData.get('todo-task')
+        const userInput = formData.get('todo-task');
+        const taskCategory = formData.get('todo-task-categories');
 
         // Perform validation
         if (!validateUserInput(userInput).cond) {
             setTask('');
-            setTaskInputError(validateUserInput(userInput).message);
-            return false
+            toast.error(`Failed to Add Task: ${validateUserInput(userInput).message}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                pauseOnFocusLoss: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            return false;
         }
 
         // Add new Task Object to State
@@ -53,26 +63,28 @@ export function AddTask(){
                 type: 'add',
                 id: getLatestId(tasks)+1,
                 task: userInput,
+                category: taskCategory,
             });
             setTask('');
-            setTaskInputError('');
             toast.success('Task added', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
             });
         } catch (error) {
-            toast.error('Failed to Add Task', {
+            toast.error(`Failed to Add Task: ${error}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
@@ -98,13 +110,14 @@ export function AddTask(){
                     handleChange={handleInputChange}
                     value={task}
                 />
+                <select id='todo-task-categories' name='todo-task-categories'>
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                </select>
                 <Button btnType="submit" btnClass="submit-form">
                     <img src={plusIcon} className="btn-icon" alt="btn plus icon" />
                 </Button>
             </Form>
-
-            {/* Error Message for wrong user input */}
-            { taskInputError && (<p id='form-error-msg' className='form-error-msg'>{taskInputError}</p>) }
         </>
     )
 

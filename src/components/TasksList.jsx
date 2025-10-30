@@ -7,6 +7,8 @@ import {
     useTasks, 
     useTasksDispatch,
     useFilterTasks,
+    useCategoryTasks,
+    useUndoTasksDispatcher,
 } from '../contexts/TasksProvider';
 
 // Import react hooks
@@ -20,9 +22,13 @@ export function TasksList(){
 
     const tasks = useTasks();
     const dispatch = useTasksDispatch();
-    const filterTasksStatus = useFilterTasks();
 
-    const filterTasks = () => {
+    const filterTasksStatus = useFilterTasks();
+    const categoryTasksStatus = useCategoryTasks();
+
+    const undoTaskDispatch = useUndoTasksDispatcher();
+
+    const filterTasks = (tasks) => {
         switch(filterTasksStatus) {
 
             case 'finished' : {
@@ -40,14 +46,31 @@ export function TasksList(){
         }
     }
 
-    const filteredTasks = filterTasks();
+    const categorizeTasks = (tasks) => {
+        switch(categoryTasksStatus) {
 
-    // List Item State
+            case 'personal' : {
+                return tasks.filter(task => task.category === 'personal');
+            }
+
+            case 'work' : {
+                return tasks.filter(task => task.category === 'work');
+            }
+
+            default: {
+                return tasks;
+            }
+
+        }
+    }
+
+    const filteredTasks = filterTasks(tasks);
+    const categorizedTasks = categorizeTasks(filteredTasks);
+
     const [modalIsOpen, setModalIsOpen] = useState({
         show: false,
         id: null
     });
-    const [listItemError, setListItemError] = useState('');
 
     function handleOpenModal(taskId) {
         setModalIsOpen({
@@ -76,26 +99,28 @@ export function TasksList(){
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
             });
+            undoTaskDispatch({
+                type: 'add',
+                task: categorizedTasks.find(task => task.id === modalIsOpen.id),
+            });
         } catch(error) {
-            toast.error('Failed to Delete Task', {
+            toast.error(`Failed to Delete Task: ${error}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
             });
         }
-    }
-
-    function handleListItemError(errorMsg){
-        setListItemError(errorMsg);
     }
 
     return (
@@ -104,12 +129,11 @@ export function TasksList(){
             <div className="todo-list-container">
                 <ul className="todo">
                     {
-                        filteredTasks.map(task => (
+                        categorizedTasks.map(task => (
                             <ListItem 
                                 key={task.id} 
                                 task={task}
                                 handleDelete={handleOpenModal}
-                                handleError={handleListItemError}
                             />
                         ))
                     }
@@ -120,16 +144,6 @@ export function TasksList(){
             {
                 modalIsOpen.show && createPortal(
                     <Modal onClose={handleCloseModal} onCancel={handleCloseModal} onConfirm={handleConfirmDeleteModal}/>,
-                    document.body
-                )
-            }
-            
-            {/* Error Message Modal */}
-            {
-                listItemError && createPortal(
-                    <div className="error-modal">
-                        <p>{listItemError}</p>
-                    </div>,
                     document.body
                 )
             }

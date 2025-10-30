@@ -3,6 +3,8 @@ import { AddTask } from './AddTask';
 import { TasksList } from './TasksList';
 import { FilterTasks } from './FilterTasks';
 import { ClearTasks } from './ClearTasks';
+import { SortTasks } from './SortTasks';
+import { ChangeTheme } from './ChangeTheme';
 
 // Import Context Provider
 import { TasksProvider } from '../contexts/TasksProvider';
@@ -15,22 +17,22 @@ import { TasksCount } from './TasksCount';
 export default function App() {
 
     return (
-        <div className="center">
-            <div className="container">
-                {/* Your App Title */}
-                <h1 className="app-title">Your Tasks</h1>
-
-                <TasksProvider>
+        <TasksProvider>
+            <div className="center">
+                <ChangeTheme/>
+                <div className="container">
+                    <h1 className="app-title">Your Tasks</h1>
                     <AddTask />
                     <FilterTasks />
+                    <SortTasks />
                     <TasksList />
                     <ClearTasks />
                     <TasksCount />
                     <ToastContainer />
-                </TasksProvider>
 
+                </div>
             </div>
-        </div>
+        </TasksProvider>
     )
 
 }

@@ -12,7 +12,7 @@ import { Button } from "./Button";
 import { validateUserInput } from '../utils/utils';
 
 // Import Context
-import { useTasksDispatch } from "../contexts/TasksProvider";
+import { useTasksDispatch, useTheme } from "../contexts/TasksProvider";
 
 // Import Styles and Images
 import penIcon from '../assets/pen-icon.svg';
@@ -20,9 +20,15 @@ import trashIcon from '../assets/trash-icon.svg';
 import checkIcon from '../assets/check-icon.svg';
 import crossIcon from '../assets/cross-icon.svg';
 
-export function ListItem({task, handleDelete, handleError}){
+import penDarkIcon from '../assets/pen-dark-icon.svg';
+import trashDarkIcon from '../assets/trash-dark-icon.svg';
+import checkDarkIcon from '../assets/check-dark-icon.svg';
+import crossDarkicon from '../assets/cross-dark-icon.svg';
+
+export function ListItem({task, handleDelete}){
 
     const dispatch = useTasksDispatch();
+    const theme = useTheme();
 
     const [isEdit, setIsEdit] = useState({
         cond: false,
@@ -51,7 +57,17 @@ export function ListItem({task, handleDelete, handleError}){
     function handleToggleFinishEdit(){
         if (!validateUserInput(editTask).cond) {
             setEditTask(editTask);
-            handleError(validateUserInput(editTask).message);
+            toast.error(`Failed to Update Task: ${validateUserInput(editTask).message}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                pauseOnFocusLoss: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
             return false;
         }
         
@@ -65,24 +81,25 @@ export function ListItem({task, handleDelete, handleError}){
                 }
             });
             resetEditInput();
-            handleError('');
             toast.success('Task updated', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
             });
         } catch (error) {
-            toast.error('Failed to Update Task', {
+            toast.error(`Failed to Update Task : ${error}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: false,
                 pauseOnHover: true,
+                pauseOnFocusLoss: false,
                 draggable: true,
                 progress: undefined,
                 theme: "colored",
@@ -97,16 +114,9 @@ export function ListItem({task, handleDelete, handleError}){
     }
 
     function handleKeyFinishEdit(event) {
-
         if (event.code === 'Enter') {
-            if (!validateUserInput(editTask).cond) {
-                setEditTask(editTask);
-                handleError(validateUserInput(editTask).message);
-                return false;
-            }
             handleToggleFinishEdit();
         }
-
     }
 
     function handleFinishTask(){
@@ -124,7 +134,12 @@ export function ListItem({task, handleDelete, handleError}){
             <Input inputType="checkbox" inputName="todo-item-cbox" inputId={`todo-item-cbox-${task.id}`} handleChange={handleFinishTask} checked={task.finished} />
             { 
                 !isEdit.cond ? 
-                (<span>{task.task}</span>) : 
+                (
+                    <>
+                        <span>{task.task}</span>
+                        <p className="category">{task.category}</p>
+                    </>
+                ) : 
                 (
                     <Input 
                         inputType="text" 
@@ -139,22 +154,22 @@ export function ListItem({task, handleDelete, handleError}){
             {
                 !isEdit.cond ? (
                     <Button btnType="button" btnClass="edit-item" handleClick={handleToggleEdit}>
-                        <img src={penIcon} className="btn-icon" alt="btn pen icon" />
+                        <img src={theme === 'dark' ? penDarkIcon : penIcon} className="btn-icon" alt="btn pen icon" />
                     </Button>
                 ) : (
                     <Button btnType="button" btnClass="finish-edit-item" handleClick={handleToggleFinishEdit}>
-                        <img src={checkIcon} className="btn-icon" alt="btn pen icon" />
+                        <img src={theme === 'dark' ? checkDarkIcon : checkIcon} className="btn-icon" alt="btn pen icon" />
                     </Button>
                 )
             }
             {
                 !isEdit.cond ? (
                     <Button btnType="button" btnClass="delete-item" handleClick={() => handleDelete(task.id)}>
-                        <img src={trashIcon} alt="btn trash icon" />
+                        <img src={theme === 'dark' ? trashDarkIcon : trashIcon} alt="btn trash icon" />
                     </Button>
                 ) : (
                     <Button btnType="button" btnClass="cancel-edit-item" handleClick={handleToggleCancelEdit}>
-                        <img src={crossIcon} alt="btn cross icon" />
+                        <img src={theme === 'dark' ? crossDarkicon : crossIcon} alt="btn cross icon" />
                     </Button>
                 )
             }

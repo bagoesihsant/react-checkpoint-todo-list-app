@@ -33,6 +33,32 @@
     --green-900: #054e44;
 }
 
+/* Dark and Light Mode CSS */
+[data-theme="light"] {
+    --white-100: #FAFAFA;
+
+    --heading-color: #050505;
+    --form-input-color: #050505;
+    --outline-color: transparent;
+    --border-color: #050505;
+    --list-item-color: #3C3C3C;
+    --button-active-color: #FAFAFA;
+    --categories-color: #FAFAFA;
+}
+
+[data-theme="dark"] {
+    --white-100: #050505;
+
+    --heading-color: #FAFAFA;
+    --form-input-color: #FAFAFA;
+    --outline-color: #FAFAFA;
+    --border-color: #FAFAFA;
+    --list-item-color: #FAFAFA;
+    --button-active-color: #FAFAFA;
+    --categories-color: #FAFAFA;
+}
+
+
 body {
     width: 100%;
     min-height: 100vh;
@@ -41,15 +67,20 @@ body {
 }
 
 .center {
-    width: 20%;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
 }
 
+.container {
+    max-width: 702px;
+}
+
 .container .app-title {
+    color: var(--heading-color);
     font-size: 3.2rem;
     margin: 1rem 0;
 }
@@ -57,6 +88,7 @@ body {
 .container #form-todo {
     margin: 1rem 0;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
 }
@@ -68,6 +100,7 @@ body {
     border-bottom: .25rem solid var(--white-700);
     background-color: var(--white-100);
     transition: text-indent .5s ease;
+    color: var(--form-input-color);
 }
 
 .container #form-todo input[type=text]:focus {
@@ -79,6 +112,36 @@ body {
 .container #form-todo input[type=text]:hover {
     border-color: var(--white-900);
     text-indent: .5rem;
+}
+
+.container #form-todo #todo-task-categories {
+    border-style: none;
+    border-radius: 1rem;
+    height: 3rem;
+    padding-inline: 1rem 3rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    background: var(--white-900);
+    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" color="%23FAFAFA" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    color: var(--categories-color);
+}
+
+.container #form-todo #todo-task-categories:hover {
+    background: var(--white-800);
+    background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" color="%23FAFAFA" xmlns="http://www.w3.org/2000/svg"><path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+}
+
+.container #form-todo #todo-task-categories option {
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .container #form-todo button[type="submit"] {
@@ -103,21 +166,24 @@ body {
     width: 2rem;
 }
 
-.container .form-error-msg {
-    font-size: .95rem;
-    font-style: italic;
-    font-weight: 500;
-    color: var(--red-500);
-    margin-top: -.75rem;
+.container .filter-container {
+    display: flex;
+    flex-direction: column;
 }
 
-.container .filter-container {
+.container .filter-container h2 {
+    font-size: 1.5rem;
+    color: var(--heading-color);
+}
+
+.container .filter-container .button-container {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+    margin-block: 1rem;
 }
 
-.container .filter-container button {
+.container .filter-container .button-container button {
     padding-block: .25rem;
     border-style: none;
     border-radius: .25rem;
@@ -128,14 +194,53 @@ body {
     flex: 1;
 }
 
-.container .filter-container button.active {
-    background-color: var(--white-900);
-    color: var(--white-100);
+.container .sort-button-container {
+    display: flex;
+    flex-direction: column;
 }
 
-.container .filter-container button:hover {
+.container .sort-button-container h2 {
+    font-size: 1.5rem;
+    color: var(--heading-color);
+}
+
+.container .sort-button-container .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-block: 1rem;
+}
+
+.container .sort-button-container .button-container button {
+    padding-block: .25rem;
+    border-style: none;
+    border-radius: .25rem;
+    background: var(--white-400);
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+}
+
+
+.container .filter-container .button-container button.active {
     background-color: var(--white-900);
-    color: var(--white-100);
+    color: var(--button-active-color);
+}
+
+.container .filter-container .button-container button:hover {
+    background-color: var(--white-900);
+    color: var(--button-active-color);
+}
+
+.container .sort-button-container .button-container button.active {
+    background-color: var(--white-900);
+    color: var(--button-active-color);
+}
+
+.container .sort-button-container .button-container button:hover {
+    background-color: var(--white-900);
+    color: var(--button-active-color);
 }
 
 .container .clear-button-container {
@@ -156,7 +261,7 @@ body {
 }
 .container .clear-button-container button:hover {
     background-color: var(--white-900);
-    color: var(--white-100);
+    color: var(--button-active-color);
 }
 
 
@@ -175,7 +280,7 @@ body {
 
 .container .todo-list-container .todo .todo-list-item {
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     border-radius: 1rem;
     padding: 1rem;
     display: flex;
@@ -194,10 +299,16 @@ body {
 
 .container .todo-list-container .todo .todo-list-item span {
     font-size: 1.5rem;
-    color: var(--white-900);
+    color: var(--list-item-color);
     font-weight: 500;
     user-select: none;
     position: relative;
+}
+
+.container .todo-list-container .todo .todo-list-item .category {
+    text-transform: capitalize;
+    font-weight: 600;
+    color: var(--list-item-color);
 }
 
 .container .todo-list-container .todo .todo-list-item .edit-item {
@@ -243,6 +354,7 @@ body {
 
 .container .remaining-todo {
     margin-block: 1rem;
+    color: var(--form-input-color);
 }
 
 /* Modal CSS */
@@ -429,16 +541,98 @@ body {
     padding: 5px 0;
     width: 80%;
     font-size: 1.5rem;
-    color: var(--white-900);
+    color: var(--form-input-color);
     font-weight: 500;
     background: transparent;
     border: none;
-    border-bottom: .15rem solid var(--white-900);
+    border-bottom: .15rem solid var(--form-input-color);
 }
 
 .container .todo-list-container .todo .todo-list-item input[type="text"]:focus {
     outline: none;
 }
 
+/* CSS For Toast */
+.msg-container {
+    padding-inline-start: 1rem;
+}
 
+.msg-container .msg-confirm-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-block: .25rem;
+}
 
+.msg-container .msg-confirm-container button {
+    border-style: none;
+    background: transparent;
+    color: var(--white-50);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Dark Light Button CSS */
+
+.toggle-container {
+    width: 702px;
+    margin-block-start: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.toggle-container input[type="checkbox"] {
+  display: none;
+}
+
+#switch {
+  margin: 0 auto;
+  position: relative;
+  display: block;
+  width: 12rem;
+  height: 3rem;
+  background-color: rgb(241, 161, 12);
+  border-radius: 3rem;
+  cursor: pointer;
+}
+
+#circle {
+  width: 5.5rem;
+  height: 2rem;
+  background-color: white;
+  position: relative;
+  top: .5rem;
+  left: .5rem;
+  border: 10px solid white;
+  border-radius: 4rem;
+  transition: 0.4s ease left, 0.4s ease background-position;
+  z-index: 2;
+}
+
+#text,
+#text2 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 300;
+  margin-left: 6.75rem;
+  z-index: 1;
+  user-select: none;
+}
+
+#text2 {
+  margin-left: 1rem;
+  text-align: right;
+}
+
+#toggle:checked + #switch #circle {
+  left: 6rem;
+  background-position: -6rem 0;
+}
+
+#toggle:checked + #switch {
+  background: #212121;
+}

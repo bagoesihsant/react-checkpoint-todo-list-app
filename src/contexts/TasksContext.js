@@ -5,3 +5,12 @@ export const TasksDispatchContext = createContext(null);
 
 export const FilterTasksContext = createContext(null);
 export const FilterTasksDispatchContext = createContext(null);
+
+export const CategoryTasksContext = createContext(null);
+export const CategoryTasksDispatchContext = createContext(null);
+
+export const UndoTasksContext = createContext(null);
+export const UndoTasksDispatchContext = createContext(null);
+
+export const ThemeContext = createContext(null);
+export const ThemeDispatchContext = createContext(null);
