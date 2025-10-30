@@ -11,3 +11,6 @@ export const CategoryTasksDispatchContext = createContext(null);
 
 export const UndoTasksContext = createContext(null);
 export const UndoTasksDispatchContext = createContext(null);
+
+export const ThemeContext = createContext(null);
+export const ThemeDispatchContext = createContext(null);

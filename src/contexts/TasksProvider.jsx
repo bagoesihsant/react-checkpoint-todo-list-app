@@ -11,6 +11,8 @@ import {
     CategoryTasksDispatchContext,
     UndoTasksContext,
     UndoTasksDispatchContext,
+    ThemeContext,
+    ThemeDispatchContext,
 } from "./TasksContext";
 
 // Import Utils
@@ -25,11 +27,13 @@ export function TasksProvider({children}){
     const initialTasks = getLocalItems('userTasks') || [];
     const initialFilter = getLocalItems('userFilterCompletion') || "all";
     const initialCategory = getLocalItems('userFilterCategory') || "all";
+    const initialTheme = getLocalItems('userTheme') || window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
     const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
     const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, initialFilter);
     const [categoryTasks, categoryTasksDispatch] = useReducer(categoryTasksReducer, initialCategory);
     const [undoTask, undoTaskDispatch] = useReducer(undoTaskReducer, {});
+    const [theme, themeDispatch] = useReducer(themeReducer, initialTheme);
 
     useEffect(() => {
         setLocalItems('userTasks', tasks);
@@ -73,6 +77,11 @@ export function TasksProvider({children}){
 
     }, [undoTask]);
 
+    useEffect(() => {
+        document.body.setAttribute('data-theme', theme);
+        setLocalItems('userTheme', theme);
+    }, [theme]);
+
     return (
         <>
             <TasksContext value={tasks}>
@@ -83,7 +92,11 @@ export function TasksProvider({children}){
                                 <CategoryTasksDispatchContext value={categoryTasksDispatch}>
                                     <UndoTasksContext value={undoTask}>
                                         <UndoTasksDispatchContext value={undoTaskDispatch}>
-                                            {children}
+                                            <ThemeContext value={theme}>
+                                                <ThemeDispatchContext value={themeDispatch}>
+                                                    {children}
+                                                </ThemeDispatchContext>
+                                            </ThemeContext>
                                         </UndoTasksDispatchContext>
                                     </UndoTasksContext>
                                 </CategoryTasksDispatchContext>
@@ -128,6 +141,14 @@ export function useUndoTasks(){
 
 export function useUndoTasksDispatcher() {
     return useContext(UndoTasksDispatchContext);
+}
+
+export function useTheme(){
+    return useContext(ThemeContext);
+}
+
+export function useThemeDispatch() {
+    return useContext(ThemeDispatchContext);
 }
 
 // Tasks Reducer Function
@@ -232,6 +253,21 @@ function undoTaskReducer(task, action) {
             return {}
         }
 
+        default: {
+            throw("Error: Not a valid input");
+        }
+
+    }
+
+}
+
+// Switch Theme Reducer
+function themeReducer(task, action) {
+
+    switch(action.type) {
+        case 'invert': {
+            return task === 'dark' ? 'light' : 'dark';
+        }
     }
 
 }
