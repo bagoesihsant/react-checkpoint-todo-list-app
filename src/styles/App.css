@@ -535,11 +535,11 @@ body {
     padding: 5px 0;
     width: 80%;
     font-size: 1.5rem;
-    color: var(--white-900);
+    color: var(--form-input-color);
     font-weight: 500;
     background: transparent;
     border: none;
-    border-bottom: .15rem solid var(--white-900);
+    border-bottom: .15rem solid var(--form-input-color);
 }
 
 .container .todo-list-container .todo .todo-list-item input[type="text"]:focus {
