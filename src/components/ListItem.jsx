@@ -12,7 +12,7 @@ import { Button } from "./Button";
 import { validateUserInput } from '../utils/utils';
 
 // Import Context
-import { useTasksDispatch } from "../contexts/TasksProvider";
+import { useTasksDispatch, useTheme } from "../contexts/TasksProvider";
 
 // Import Styles and Images
 import penIcon from '../assets/pen-icon.svg';
@@ -20,9 +20,15 @@ import trashIcon from '../assets/trash-icon.svg';
 import checkIcon from '../assets/check-icon.svg';
 import crossIcon from '../assets/cross-icon.svg';
 
+import penDarkIcon from '../assets/pen-dark-icon.svg';
+import trashDarkIcon from '../assets/trash-dark-icon.svg';
+import checkDarkIcon from '../assets/check-dark-icon.svg';
+import crossDarkicon from '../assets/cross-dark-icon.svg';
+
 export function ListItem({task, handleDelete}){
 
     const dispatch = useTasksDispatch();
+    const theme = useTheme();
 
     const [isEdit, setIsEdit] = useState({
         cond: false,
@@ -148,22 +154,22 @@ export function ListItem({task, handleDelete}){
             {
                 !isEdit.cond ? (
                     <Button btnType="button" btnClass="edit-item" handleClick={handleToggleEdit}>
-                        <img src={penIcon} className="btn-icon" alt="btn pen icon" />
+                        <img src={theme === 'dark' ? penDarkIcon : penIcon} className="btn-icon" alt="btn pen icon" />
                     </Button>
                 ) : (
                     <Button btnType="button" btnClass="finish-edit-item" handleClick={handleToggleFinishEdit}>
-                        <img src={checkIcon} className="btn-icon" alt="btn pen icon" />
+                        <img src={theme === 'dark' ? checkDarkIcon : checkIcon} className="btn-icon" alt="btn pen icon" />
                     </Button>
                 )
             }
             {
                 !isEdit.cond ? (
                     <Button btnType="button" btnClass="delete-item" handleClick={() => handleDelete(task.id)}>
-                        <img src={trashIcon} alt="btn trash icon" />
+                        <img src={theme === 'dark' ? trashDarkIcon : trashIcon} alt="btn trash icon" />
                     </Button>
                 ) : (
                     <Button btnType="button" btnClass="cancel-edit-item" handleClick={handleToggleCancelEdit}>
-                        <img src={crossIcon} alt="btn cross icon" />
+                        <img src={theme === 'dark' ? crossDarkicon : crossIcon} alt="btn cross icon" />
                     </Button>
                 )
             }
