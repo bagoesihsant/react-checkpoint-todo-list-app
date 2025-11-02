@@ -32,8 +32,9 @@ export function TasksProvider({children}){
     const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks);
     const [filterTasks, filterTasksDispatch] = useReducer(filterTasksReducer, initialFilter);
     const [categoryTasks, categoryTasksDispatch] = useReducer(categoryTasksReducer, initialCategory);
-    const [undoTask, undoTaskDispatch] = useReducer(undoTaskReducer, {});
     const [theme, themeDispatch] = useReducer(themeReducer, initialTheme);
+
+    const [undoTask, undoTaskDispatch] = useReducer(undoTaskReducer, {});
 
     useEffect(() => {
         setLocalItems('userTasks', tasks);
@@ -86,23 +87,31 @@ export function TasksProvider({children}){
         <>
             <TasksContext value={tasks}>
                 <TasksDispatchContext value={tasksDispatch}>
+
                     <FilterTasksContext value={filterTasks}>
                         <FilterTasksDispatchContext value={filterTasksDispatch}>
+
                             <CategoryTasksContext value={categoryTasks}>
                                 <CategoryTasksDispatchContext value={categoryTasksDispatch}>
+
                                     <UndoTasksContext value={undoTask}>
                                         <UndoTasksDispatchContext value={undoTaskDispatch}>
+
                                             <ThemeContext value={theme}>
                                                 <ThemeDispatchContext value={themeDispatch}>
                                                     {children}
                                                 </ThemeDispatchContext>
                                             </ThemeContext>
+                                            
                                         </UndoTasksDispatchContext>
                                     </UndoTasksContext>
+
                                 </CategoryTasksDispatchContext>
                             </CategoryTasksContext>
+
                         </FilterTasksDispatchContext>
                     </FilterTasksContext>
+
                 </TasksDispatchContext>
             </TasksContext>
         </>

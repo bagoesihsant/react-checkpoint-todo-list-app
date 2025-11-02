@@ -33,7 +33,7 @@ export function ListItem({task, handleDelete}){
     const [isEdit, setIsEdit] = useState({
         cond: false,
         id: null
-    })
+    });
     const [editTask, setEditTask] = useState(task.task);
 
     function resetEditInput(){
